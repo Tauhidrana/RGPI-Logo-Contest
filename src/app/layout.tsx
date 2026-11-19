@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Hind_Siliguri, Baloo_2 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { Analytics } from "@vercel/analytics/next";
 
 // Self-hosted, subset + preloaded by Next.js — no render-blocking external CSS.
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="bn" suppressHydrationWarning className={`${inter.variable} ${hind.variable} ${baloo.variable}`}>
       <body className="min-h-screen">
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
