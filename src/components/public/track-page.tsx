@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Search, Loader2, Hash, Phone, CheckCircle2, Clock3, XCircle, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/components/i18n-provider";
@@ -77,7 +76,7 @@ export function TrackPage() {
               </form>
 
               {result && (
-                <motion.div initial={{ opacity: 1, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-7 rounded-2xl border bg-slate-50 p-6 dark:bg-slate-900/40">
+                <div className="mt-7 rounded-2xl border bg-slate-50 p-6 dark:bg-slate-900/40">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-brand-600 shadow-sm dark:bg-slate-800"><Icon className="h-5 w-5" /></div>
@@ -92,7 +91,7 @@ export function TrackPage() {
                   <div className="mt-5 rounded-xl bg-brand-50 p-3 text-center text-xs text-brand-800 dark:bg-brand-950/40 dark:text-brand-200">
                     {lang === "bn" ? "ফলাফল প্রকাশিত হলে বিজয়ীদের নাম দেখা যাবে।" : "Winners will be announced on the Results page."}
                   </div>
-                </motion.div>
+                </div>
               )}
             </CardContent>
           </Card>

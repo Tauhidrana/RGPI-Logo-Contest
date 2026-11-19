@@ -4,7 +4,7 @@ import { listDepartments } from "@/lib/data";
 import { SubmitWizard } from "@/components/submit/submit-wizard";
 import { ClosedNotice } from "@/components/shared/closed-notice";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 export const metadata: Metadata = { title: "লোগো জমা দিন", description: "RGPI লোগো ডিজাইন প্রতিযোগিতায় আপনার ডিজাইন জমা দিন।" };
 
 export default async function SubmitPage() {

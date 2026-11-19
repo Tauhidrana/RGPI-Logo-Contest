@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Trophy, Medal, Award, Clock3, Crown, Sparkles } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
@@ -61,7 +60,7 @@ export function ResultsPage({ results }: { results: Results }) {
             const sub = results[p.key];
             const Icon = p.icon;
             return (
-              <motion.div key={p.key} initial={{ opacity: 1, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12 }} className={`rounded-3xl border bg-card p-4 shadow-card ${p.key === "winner" ? "sm:-translate-y-6 ring-2 " + p.ring : ""}`}>
+              <div key={p.key}>
                 <div className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold ${p.badge}`}><Icon className="h-3.5 w-3.5" /> {p.label}</div>
                 {sub ? (
                   <>
@@ -76,7 +75,7 @@ export function ResultsPage({ results }: { results: Results }) {
                 ) : (
                   <div className="mt-4 grid aspect-square place-items-center rounded-2xl border border-dashed text-center text-sm muted">{p.sub}<br />{lang === "bn" ? "নির্ধারিত হবে" : "TBA"}</div>
                 )}
-              </motion.div>
+              </div>
             );
           })}
         </div>

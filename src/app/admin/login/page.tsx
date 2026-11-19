@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Loader2, ShieldCheck, Eye, EyeOff, ArrowLeft, LockKeyhole } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/components/i18n-provider";
@@ -66,7 +65,7 @@ export default function LoginPage() {
         </div>
       </header>
       <main className="container-pad flex flex-1 items-center justify-center py-10">
-        <motion.div initial={{ opacity: 1, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
+        <div className="w-full max-w-md">
           <Card className="sticker border-0 shadow-[7px_7px_0_0_#0E2F33]">
             <CardContent className="p-7 sm:p-9">
               <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border-[3px] border-ink bg-sun-300 text-ink shadow-[3px_3px_0_0_#0E2F33]"><ShieldCheck className="h-7 w-7" /></div>
@@ -88,7 +87,7 @@ export default function LoginPage() {
               )}
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       </main>
     </div>
   );

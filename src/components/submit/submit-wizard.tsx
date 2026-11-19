@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, CloudUpload, FileImage,
   FileCode2, X, Loader2, ShieldCheck, PartyPopper, Image as ImageIcon,
@@ -287,8 +286,8 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
 
             <form onSubmit={onSubmit} className="mt-8">
               <input type="hidden" {...register("honeypot")} autoComplete="off" tabIndex={-1} aria-hidden="true" />
-              <AnimatePresence mode="wait">
-                <motion.div key={step} initial={{ opacity: 1, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.22 }}>
+              
+                <div key={step}>
                   {step === 1 && (
                     <div className="grid gap-5 sm:grid-cols-2">
                       <div className="sm:col-span-2"><Field label={l.fullName} error={errors.full_name?.message}><Input {...register("full_name")} placeholder={lang === "bn" ? "যেমন: আব্দুল্লাহ আল মামুন" : "e.g. Abdullah Al Mamun"} /></Field></div>
@@ -394,8 +393,8 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
                       </Button>
                     </div>
                   )}
-                </motion.div>
-              </AnimatePresence>
+                </div>
+              
 
               {step < 4 && (
                 <div className="mt-8 flex items-center justify-between border-t pt-5">

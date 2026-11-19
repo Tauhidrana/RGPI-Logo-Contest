@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   ArrowRight, Building2, Cog, GraduationCap, Leaf, FileImage, FileCode2,
   ClipboardList, Gavel, Trophy, Copy, Check, CalendarDays, HelpCircle,
@@ -24,10 +23,6 @@ import type { DictKey } from "@/lib/i18n/dict";
 const REQUIRED_TEXT = "রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউট, রাজশাহী";
 const REQUIRED_YEAR = "১৯৬৩";
 
-const reveal = {
-  hidden: { opacity: 1, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
 
 const faqs: { q: { bn: string; en: string }; a: { bn: string; en: string } }[] = [
   { q: { bn: "কে এই প্রতিযোগিতায় অংশ নিতে পারেন?", en: "Who can participate?" }, a: { bn: "রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউটের বর্তমান শিক্ষার্থীরা অংশ নিতে পারেন। কোনো লগইন বা অ্যাকাউন্টের প্রয়োজন নেই।", en: "Current students of RGPI can participate. No login or account is required." } },
@@ -40,11 +35,11 @@ const faqs: { q: { bn: string; en: string }; a: { bn: string; en: string } }[] =
 
 function SectionTitle({ eyebrow, title, desc }: { eyebrow: string; title: string; desc?: string }) {
   return (
-    <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={reveal} className="mx-auto max-w-2xl text-center">
+    <div className="mx-auto max-w-2xl text-center">
       <span className="pill-outline bg-leaf-100 dark:bg-leaf-900/40">{eyebrow}</span>
       <h2 className="mt-5 text-3xl font-extrabold text-ink sm:text-5xl dark:text-foreground"><span className="highlight">{title}</span></h2>
       {desc && <p className="mt-4 text-base leading-relaxed muted">{desc}</p>}
-    </motion.div>
+    </div>
   );
 }
 
@@ -75,26 +70,27 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
     <div className="min-h-screen overflow-hidden bg-dots">
       <SiteHeader />
 
+      <main>
       {/* HERO */}
       <section className="relative hero-glow">
         <div className="container-pad relative pb-16 pt-10 sm:pb-24 sm:pt-14">
-          <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }} className="mx-auto max-w-4xl text-center">
-            <motion.div variants={reveal} className="mx-auto w-full max-w-3xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mx-auto w-full max-w-3xl">
               <ContestLogo className="drop-shadow-[6px_6px_0_rgba(14,47,51,0.12)]" />
-            </motion.div>
-            <motion.p variants={reveal} className="mt-6 text-lg font-extrabold text-ink sm:text-2xl dark:text-foreground">
+            </div>
+            <p className="mt-6 text-lg font-extrabold text-ink sm:text-2xl dark:text-foreground">
               {t("hero.subtitle")} <span className="text-sun-500">✦</span>
-            </motion.p>
-            <motion.p variants={reveal} className="mx-auto mt-3 max-w-2xl text-base leading-relaxed muted sm:text-lg">
+            </p>
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed muted sm:text-lg">
               {t("hero.desc")}
-            </motion.p>
-            <motion.div variants={reveal} className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            </p>
+            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button asChild variant="brand" size="lg" className="w-full sm:w-auto"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
               <Button asChild variant="outline" size="lg" className="w-full sm:w-auto"><Link href="#details">{t("hero.ctaSecondary")}</Link></Button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          <motion.div initial={{ opacity: 1, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="mx-auto mt-12 max-w-2xl">
+          <div className="mx-auto mt-12 max-w-2xl">
             <div className="sticker overflow-hidden bg-white p-1.5 dark:bg-card">
               <div className="rounded-[20px] bg-leaf-50 p-5 dark:bg-leaf-950/30 sm:p-7">
                 <div className="mb-4 flex items-center justify-center gap-2 text-xs font-extrabold uppercase tracking-widest text-ink dark:text-foreground">
@@ -106,11 +102,11 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* stickers */}
-          <motion.div aria-hidden initial={{ opacity: 1, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }} className="pointer-events-none absolute left-1 top-1/3 hidden animate-float rounded-2xl border-[3px] border-ink bg-sun-300 px-4 py-2 font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] xl:block">EST. 1963 ✦</motion.div>
-          <motion.div aria-hidden initial={{ opacity: 1, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8 }} className="pointer-events-none absolute right-1 top-1/2 hidden animate-float rounded-2xl border-[3px] border-ink bg-leaf-500 px-4 py-2 font-extrabold text-white shadow-[4px_4px_0_0_#0E2F33] xl:block">GO GREEN 🌱</motion.div>
+          <div className="pointer-events-none absolute left-1 top-1/3 hidden animate-float rounded-2xl border-[3px] border-ink bg-sun-300 px-4 py-2 font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] xl:block">EST. 1963 ✦</div>
+          <div className="pointer-events-none absolute right-1 top-1/2 hidden animate-float rounded-2xl border-[3px] border-ink bg-leaf-500 px-4 py-2 font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] xl:block">GO GREEN 🌱</div>
         </div>
       </section>
 
@@ -123,14 +119,14 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
               {themes.map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div key={item.key} initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal} transition={{ delay: i * 0.07 }}>
+                  <div key={item.key}>
                     <div className="sticker sticker-hover h-full p-6">
                       <div className={cn("grid h-14 w-14 place-items-center rounded-2xl border-[3px] border-ink text-white shadow-[3px_3px_0_0_#0E2F33]", item.box)}><Icon className="h-7 w-7" /></div>
                       <h3 className="mt-5 text-xl font-extrabold text-ink dark:text-foreground">{t(item.key)}</h3>
                       <p className="mt-2 text-sm leading-relaxed muted">{t(`${item.key}Desc` as DictKey)}</p>
                       <div className="mt-4 h-1.5 w-12 rounded-full bg-sun-400 transition-all group-hover:w-20" />
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -140,7 +136,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
         {/* TEXT + COLORS */}
         <section className="section-pad bg-white/60 dark:bg-slate-950/40">
           <div className="container-pad grid gap-8 lg:grid-cols-2">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal}>
+            <div>
               <div className="sticker h-full bg-sun-50 p-6 dark:bg-sun-950/20 sm:p-9">
                 <div className="flex items-center gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink bg-sun-300 text-ink shadow-[3px_3px_0_0_#0E2F33]"><Sparkles className="h-6 w-6" /></div>
@@ -148,14 +144,14 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                 </div>
                 <div className="mt-6 rounded-3xl border-[3px] border-dashed border-ink bg-white p-6 dark:bg-card">
                   <p className="text-center font-bangla text-xl font-bold leading-relaxed text-ink dark:text-foreground sm:text-2xl">{REQUIRED_TEXT}</p>
-                  <div className="my-4 flex items-center gap-3 text-xs font-bold text-sun-700"><span className="h-px flex-1 bg-ink/20" /> {t("text.year")} <span className="h-px flex-1 bg-ink/20" /></div>
+                  <div className="my-4 flex items-center gap-3 text-xs font-bold text-ink"><span className="h-px flex-1 bg-ink/20" /> {t("text.year")} <span className="h-px flex-1 bg-ink/20" /></div>
                   <p className="text-center font-bangla text-4xl font-extrabold text-leaf-600">{REQUIRED_YEAR}</p>
                 </div>
                 <Button variant="outline" className="mt-5 w-full" onClick={copyText}>{copied ? <Check className="h-4 w-4 text-leaf-600" /> : <Copy className="h-4 w-4" />}{copied ? t("text.copied") : t("text.copy")}</Button>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal} transition={{ delay: 0.1 }}>
+            <div>
               <div className="sticker h-full bg-leaf-50 p-6 dark:bg-leaf-950/20 sm:p-9">
                 <div className="flex items-center gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink bg-leaf-500 text-white shadow-[3px_3px_0_0_#0E2F33]"><Palette className="h-6 w-6" /></div>
@@ -178,7 +174,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                   {lang === "bn" ? "✨ যেকোনো রঙের ব্যবহার অনুমোদিত" : "✨ Any colour scheme is welcome"}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -193,7 +189,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
               ].map((f, i) => {
                 const Icon = f.icon;
                 return (
-                  <motion.div key={f.ext} initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal} transition={{ delay: i * 0.08 }} className="sticker p-6">
+                  <div key={f.ext} className="sticker p-6">
                     <div className={cn("grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink text-white shadow-[3px_3px_0_0_#0E2F33]", f.box)}><Icon className="h-6 w-6" /></div>
                     <h3 className="mt-4 text-xl font-extrabold text-ink dark:text-foreground">{f.title}</h3>
                     <p className="text-sm muted">{f.ext}</p>
@@ -201,7 +197,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                       <Badge variant="outline" className="border-2 border-ink">{lang === "bn" ? "সর্বোচ্চ" : "Max"} {f.size}</Badge>
                       <Badge variant={f.tag === (lang === "bn" ? "আবশ্যক" : "Required") ? "green" : "secondary"} className="border-2 border-ink">{f.tag}</Badge>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -211,7 +207,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
         {/* RULES + TIMELINE */}
         <section className="section-pad bg-white/60 dark:bg-slate-950/40">
           <div className="container-pad grid gap-10 lg:grid-cols-2">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal}>
+            <div>
               <div className="flex items-center gap-3"><div className="grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink bg-sun-300 text-ink shadow-[3px_3px_0_0_#0E2F33]"><ClipboardList className="h-6 w-6" /></div><h2 className="text-3xl font-extrabold text-ink dark:text-foreground">{t("rules.title")}</h2></div>
               <ul className="mt-6 space-y-3">
                 {rules.map((rule, i) => (
@@ -221,8 +217,8 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                   </li>
                 ))}
               </ul>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal} transition={{ delay: 0.1 }}>
+            </div>
+            <div>
               <div className="flex items-center gap-3"><div className="grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink bg-brand-600 text-white shadow-[3px_3px_0_0_#0E2F33]"><CalendarDays className="h-6 w-6" /></div><h2 className="text-3xl font-extrabold text-ink dark:text-foreground">{t("timeline.title")}</h2></div>
               <div className="mt-6 space-y-0">
                 {[
@@ -241,7 +237,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -266,15 +262,17 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
         {/* CTA */}
         <section className="pb-20">
           <div className="container-pad">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={reveal} className="sticker overflow-hidden bg-sun-300 px-6 py-14 text-center sm:px-12 dark:bg-sun-700">
+            <div className="sticker overflow-hidden bg-sun-300 px-6 py-14 text-center sm:px-12 dark:bg-sun-700">
               <PartyPopper className="mx-auto h-12 w-12 text-ink dark:text-white" />
               <h2 className="mt-4 text-3xl font-extrabold text-ink sm:text-5xl dark:text-white">{lang === "bn" ? "আপনার সৃজনশীলতা দেখান" : "Show us your creativity"}</h2>
               <p className="mx-auto mt-3 max-w-xl font-semibold text-ink/80 dark:text-white/90">{lang === "bn" ? "একটি লোগো, অসীম সম্ভাবনা। আজই জমা দিন এবং RGPI-এর ইতিহাসের অংশ হুন।" : "One logo, endless possibilities. Submit today and become part of RGPI's history."}</p>
               <Button asChild variant="default" size="lg" className="mt-7 border-sun-300"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
-            </motion.div>
+            </div>
           </div>
         </section>
       </div>
+
+      </main>
 
       <SiteFooter />
     </div>

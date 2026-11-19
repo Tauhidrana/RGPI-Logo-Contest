@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   LayoutDashboard, Files, Trophy, Users, Building2, Settings, ScrollText,
   Gavel, LogOut, Menu, X, ExternalLink, ShieldCheck, Search,
@@ -89,7 +88,7 @@ export function DashboardShell({ role, children, user }: { role: Role; children:
             <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-leaf-500 text-xs font-extrabold text-white">{(user?.full_name ?? "U").slice(0, 1).toUpperCase()}</div>
           </div>
         </header>
-        <motion.main initial={{ opacity: 1 }} animate={{ opacity: 1 }} className="p-4 sm:p-6 lg:p-8">{children}</motion.main>
+        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
 import { CheckCircle2, Copy, Check, Home, Search, Mail, Phone, User, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/components/i18n-provider";
@@ -46,12 +45,12 @@ export default function SuccessPage() {
     <div className="flex min-h-screen flex-col bg-slate-50/70 dark:bg-slate-950/40">
       <SiteHeader />
       <main className="container-pad flex flex-1 items-center justify-center py-14">
-        <motion.div initial={{ opacity: 1, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-xl">
+        <div className="w-full max-w-xl">
           <Card className="overflow-hidden border-0 shadow-soft">
             <div className="bg-gradient-to-br from-leaf-600 to-brand-600 px-6 py-10 text-center text-white">
-              <motion.div initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 180 }} className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur">
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur">
                 <CheckCircle2 className="h-9 w-9" />
-              </motion.div>
+              </div>
               <h1 className="mt-4 text-3xl font-extrabold">{lang === "bn" ? "সাবমিশন সফল!" : "Submission successful!"}</h1>
               <p className="mt-2 text-white/85">{lang === "bn" ? "আপনার লোগো সফলভাবে জমা দেওয়া হয়েছে।" : "Your logo has been submitted successfully."}</p>
             </div>
@@ -80,7 +79,7 @@ export default function SuccessPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       </main>
       <SiteFooter />
     </div>

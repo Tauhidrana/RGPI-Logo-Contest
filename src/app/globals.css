@@ -1,15 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --font-bangla: "Hind Siliguri", "Noto Sans Bengali", sans-serif;
-    --font-inter: "Inter", sans-serif;
-    --font-display: "Baloo 2", "Inter", sans-serif;
-
     /* Contest identity: pale mint canvas, deep teal ink, green / sun / blue */
     --background: 120 33% 96%;
     --foreground: 185 55% 13%;
@@ -22,7 +16,7 @@
     --secondary: 120 28% 91%;
     --secondary-foreground: 185 55% 13%;
     --muted: 120 24% 91%;
-    --muted-foreground: 185 18% 40%;
+    --muted-foreground: 185 25% 30%;
     --accent: 45 92% 90%;
     --accent-foreground: 185 55% 13%;
     --destructive: 0 72% 51%;

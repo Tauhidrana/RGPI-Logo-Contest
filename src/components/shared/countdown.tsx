@@ -67,7 +67,7 @@ export function Countdown({ deadline, compact = false }: { deadline: string; com
           <div className="text-2xl font-extrabold tabular-nums text-ink sm:text-4xl">
             {lang === "bn" ? toBanglaDigits(u.value) : u.value}
           </div>
-          <div className="mt-0.5 text-[10px] font-extrabold uppercase tracking-wider text-ink/60 sm:text-xs">{u.label}</div>
+          <div className="mt-0.5 text-[10px] font-extrabold uppercase tracking-wider text-ink sm:text-xs">{u.label}</div>
         </div>
       ))}
     </div>

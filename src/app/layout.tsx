@@ -1,6 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Hind_Siliguri, Baloo_2 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+
+// Self-hosted, subset + preloaded by Next.js — no render-blocking external CSS.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const hind = Hind_Siliguri({ subsets: ["bengali"], weight: ["400", "500", "600", "700"], variable: "--font-bangla", display: "swap" });
+const baloo = Baloo_2({ subsets: ["latin"], weight: ["800"], variable: "--font-display", display: "swap" });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -49,7 +55,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bn" suppressHydrationWarning>
+    <html lang="bn" suppressHydrationWarning className={`${inter.variable} ${hind.variable} ${baloo.variable}`}>
       <body className="min-h-screen">
         <Providers>{children}</Providers>
       </body>

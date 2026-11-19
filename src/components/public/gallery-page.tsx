@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   ImageOff, Maximize2, ChevronLeft, ChevronRight, Trophy, User,
   Building2, GraduationCap, Hash, CalendarDays, ArrowRight,
@@ -50,12 +49,8 @@ export function GalleryPage({ visible, submissions }: { visible: boolean; submis
         ) : (
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {submissions.map((s, i) => (
-              <motion.button
+              <button
                 key={s.id}
-                initial={{ opacity: 1, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 6) * 0.04 }}
                 onClick={() => setActive(i)}
                 className="sticker sticker-hover group overflow-hidden text-left"
               >
@@ -75,7 +70,7 @@ export function GalleryPage({ visible, submissions }: { visible: boolean; submis
                     <p className="flex items-center gap-2 muted"><GraduationCap className="h-3.5 w-3.5 text-sun-600" />{lang === "bn" ? "সেমিস্টার" : "Semester"}: {s.semester} · {lang === "bn" ? "রোল" : "Roll"}: {s.roll}</p>
                   </div>
                 </div>
-              </motion.button>
+              </button>
             ))}
           </div>
         )}

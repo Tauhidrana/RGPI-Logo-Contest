@@ -49,7 +49,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="container-pad flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
+        <div className="container-pad flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-slate-400 sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} RGPI. {t("footer.rights")}.</p>
           <p>Made with care for our institute 🇧🇩</p>
         </div>

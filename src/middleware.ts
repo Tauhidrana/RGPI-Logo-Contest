@@ -8,6 +8,15 @@ const configured = URL.startsWith("http") && !URL.includes("your-project") && AN
 
 export async function middleware(req: NextRequest) {
   if (!configured) return NextResponse.next();
+
+  // Public visitors without a session cookie skip the network round-trip entirely.
+  const hasSession =
+    req.cookies.getAll().some((c) => c.name.startsWith("sb-")) ||
+    req.headers.get("authorization")?.startsWith("Bearer ");
+  if (!hasSession && !req.nextUrl.pathname.startsWith("/admin") && !req.nextUrl.pathname.startsWith("/judge")) {
+    return NextResponse.next();
+  }
+
   let res = NextResponse.next({ request: { headers: req.headers } });
   const supabase = createServerClient(URL, ANON, {
     cookies: {
@@ -24,5 +33,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/og|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/og|api/demo-image|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };

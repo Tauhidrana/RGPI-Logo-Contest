@@ -1,4 +1,5 @@
 import "server-only";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { getAdminClient } from "./supabase/server";
 import { getSettings } from "./settings";
 import { DEFAULT_DEPARTMENTS } from "./departments";
@@ -88,13 +89,20 @@ export async function updateSubmission(id: string, patch: Partial<Submission>): 
   if (error) throw new Error(error.message);
 }
 
+const fetchDepartments = unstable_cache(
+  async (): Promise<Department[]> => {
+    const admin = getAdminClient();
+    if (!admin) return DEFAULT_DEPARTMENTS;
+    const { data } = await admin.from("departments").select("*").order("sort_order", { ascending: true });
+    return (data ?? []) as Department[];
+  },
+  ["departments-v1"],
+  { revalidate: 300, tags: ["departments"] }
+);
+
 export async function listDepartments(activeOnly = false): Promise<Department[]> {
-  const admin = getAdminClient();
-  if (!admin) return DEFAULT_DEPARTMENTS.filter((d) => !activeOnly || d.is_active);
-  const { data } = await admin.from("departments").select("*").order("sort_order", { ascending: true });
-  let rows = (data ?? []) as Department[];
-  if (activeOnly) rows = rows.filter((d) => d.is_active);
-  return rows;
+  const rows = await fetchDepartments();
+  return activeOnly ? rows.filter((d) => d.is_active) : rows;
 }
 
 export async function saveDepartment(dep: Partial<Department> & { name_bn: string; name_en: string }): Promise<void> {
@@ -102,6 +110,7 @@ export async function saveDepartment(dep: Partial<Department> & { name_bn: strin
   if (!admin) throw new Error("Supabase কনফিগার করা নেই");
   const { error } = await admin.from("departments").upsert(dep);
   if (error) throw new Error(error.message);
+  revalidateTag("departments");
 }
 
 export async function deleteDepartment(id: string): Promise<void> {
@@ -109,6 +118,7 @@ export async function deleteDepartment(id: string): Promise<void> {
   if (!admin) throw new Error("Supabase কনফিগার করা নেই");
   const { error } = await admin.from("departments").delete().eq("id", id);
   if (error) throw new Error(error.message);
+  revalidateTag("departments");
 }
 
 export async function addAudit(entry: Omit<AuditLog, "id" | "created_at">): Promise<void> {
