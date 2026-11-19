@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabase/server";
+import { createServerSupabase, getAdminClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { createSessionToken, SESSION_COOKIE } from "@/lib/session";
 import { ALLOWED_ADMIN_EMAILS } from "@/lib/defaults";
 
 export const runtime = "nodejs";
 
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? "taujidrana00@gmail.com").trim().toLowerCase();
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "taujidrana00@gmail.com").trim().toLowerCase();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "Tauhidrana00@00@";
 
 export async function POST(req: NextRequest) {
@@ -30,8 +30,19 @@ export async function POST(req: NextRequest) {
     if (!supabase) return NextResponse.json({ error: "সার্ভার কনফিগার ত্রুটি" }, { status: 500 });
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return NextResponse.json({ error: error.message }, { status: 401 });
-    const role = ALLOWED_ADMIN_EMAILS.includes(email) ? "admin" : "judge";
-    return NextResponse.json({ ok: true, role });
+
+    // Only the allowlisted Gmail gets admin access. Others must be active judges.
+    if (ALLOWED_ADMIN_EMAILS.includes(email)) return NextResponse.json({ ok: true, role: "admin" });
+
+    const { data: session } = await supabase.auth.getUser();
+    const adminClient = getAdminClient();
+    const { data: profile } = adminClient && session.user
+      ? await adminClient.from("profiles").select("role,is_active").eq("id", session.user.id).maybeSingle()
+      : { data: null };
+    if (profile?.role === "judge" && profile.is_active) {
+      return NextResponse.json({ ok: true, role: "judge" });
+    }
+    return NextResponse.json({ error: "অনুমোদিত ইমেইল নয়" }, { status: 403 });
   }
 
   // Local credential login — only the authorised admin Gmail and password.
