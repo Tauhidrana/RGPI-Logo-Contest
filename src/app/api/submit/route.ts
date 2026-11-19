@@ -176,6 +176,7 @@ export async function POST(req: NextRequest) {
         full_name: clean.full_name,
         logo_title: clean.logo_title,
         department_id: clean.department_id,
+        department_name: departments.find((d) => d.id === clean.department_id)?.name_bn ?? "",
         email: clean.email,
         phone: clean.phone,
         created_at: row.created_at,

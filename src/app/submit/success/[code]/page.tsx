@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CheckCircle2, Copy, Check, Home, Search, Mail, Phone, User, Trophy } from "lucide-react";
+import { CheckCircle2, Copy, Check, Home, Search, Mail, Phone, User, Trophy, Download, Loader2, Building2 } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
@@ -11,9 +11,10 @@ import { SiteFooter } from "@/components/shared/site-footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateTime } from "@/lib/utils";
+import { downloadSubmissionCard } from "@/lib/card-export";
 
 type Summary = {
-  full_name: string; logo_title: string; department_id: string;
+  full_name: string; logo_title: string; department_id: string; department_name?: string;
   email: string; phone: string; created_at: string;
 };
 
@@ -22,6 +23,7 @@ export default function SuccessPage() {
   const { lang } = useI18n();
   const [summary, setSummary] = useState<Summary | null>(null);
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     try {
@@ -39,6 +41,27 @@ export default function SuccessPage() {
       toast.success(lang === "bn" ? "আইডি কপি হয়েছে" : "ID copied");
       setTimeout(() => setCopied(false), 2000);
     });
+  }
+
+  async function saveCard() {
+    setSaving(true);
+    try {
+      // Read storage at click time so an immediate click still includes the details.
+      let stored: Summary | null = summary;
+      try {
+        const raw = sessionStorage.getItem("rgpi-submission");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed.code === code) stored = parsed.summary ?? stored;
+        }
+      } catch { /* ignore */ }
+      await downloadSubmissionCard({ code, summary: stored });
+      toast.success(lang === "bn" ? "কার্ড ডিভাইসে সংরক্ষিত হয়েছে" : "Card saved to your device");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : (lang === "bn" ? "কার্ড সংরক্ষণ ব্যর্থ" : "Could not save card"));
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -63,11 +86,16 @@ export default function SuccessPage() {
                 </button>
               </div>
               <p className="mt-2 text-center text-xs muted">{lang === "bn" ? "ভবিষ্যতে স্থিতি দেখতে এই আইডিটি সংরক্ষণ করুন।" : "Save this ID to check your status later."}</p>
+              <Button type="button" variant="leaf" className="mt-5 w-full" onClick={saveCard} disabled={saving}>
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                {lang === "bn" ? "কার্ড ডাউনলোড করুন (PNG)" : "Download card (PNG)"}
+              </Button>
 
               {summary && (
                 <div className="mt-7 space-y-3 rounded-2xl border bg-slate-50 p-5 dark:bg-slate-900/40">
                   <div className="flex items-center gap-3 text-sm"><User className="h-4 w-4 text-brand-500" /><span className="muted">{lang === "bn" ? "নাম" : "Name"}:</span><strong>{summary.full_name}</strong></div>
                   <div className="flex items-center gap-3 text-sm"><Trophy className="h-4 w-4 text-brand-500" /><span className="muted">{lang === "bn" ? "লোগো" : "Logo"}:</span><strong>{summary.logo_title}</strong></div>
+                  {summary.department_name && <div className="flex items-center gap-3 text-sm"><Building2 className="h-4 w-4 text-brand-500" /><span className="muted">{lang === "bn" ? "বিভাগ" : "Department"}:</span><strong>{summary.department_name}</strong></div>}
                   <div className="flex items-center gap-3 text-sm"><Mail className="h-4 w-4 text-brand-500" /><span className="muted">Email:</span><strong>{summary.email}</strong></div>
                   <div className="flex items-center gap-3 text-sm"><Phone className="h-4 w-4 text-brand-500" /><span className="muted">Phone:</span><strong>{summary.phone}</strong></div>
                 </div>
