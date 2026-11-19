@@ -52,7 +52,9 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="container-pad flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-slate-400 sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} RGPI. {t("footer.rights")}.</p>
-          <p>Made with care for our institute 🇧🇩</p>
+          <p>
+            Made by <a href="https://tauhidrana.vercel.app" target="_blank" rel="noreferrer" className="font-bold text-slate-300 underline decoration-slate-600 underline-offset-2 hover:text-white">Kazi Tauhid Rana</a> · <a href="https://tauhidrana.vercel.app" target="_blank" rel="noreferrer" className="hover:text-white">tauhidrana.vercel.app</a>
+          </p>
         </div>
       </div>
     </footer>

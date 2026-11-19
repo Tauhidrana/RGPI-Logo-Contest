@@ -50,6 +50,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href="https://tauhidrana.vercel.app"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden items-center gap-1.5 rounded-full border border-ink/15 bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-ink/70 transition hover:border-brand-400 hover:text-brand-600 focus-ring xl:inline-flex dark:bg-card dark:text-foreground/70"
+            title="tauhidrana.vercel.app"
+          >
+            Made by <strong className="font-extrabold text-ink dark:text-foreground">Kazi Tauhid Rana</strong>
+            <span className="h-3 w-px bg-ink/20" />
+            <span className="font-mono text-[10px] text-muted-foreground">tauhidrana.vercel.app</span>
+          </a>
           <LanguageToggle />
           <button
             type="button"
@@ -78,6 +89,9 @@ export function SiteHeader() {
               {t(l.key)}
             </Link>
           ))}
+          <a href="https://tauhidrana.vercel.app" target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="mt-2 block rounded-lg border border-ink/15 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-ink/70 dark:bg-slate-800 dark:text-foreground/70">
+            Made by <strong className="font-extrabold">Kazi Tauhid Rana</strong> · tauhidrana.vercel.app
+          </a>
         </nav>
       )}
     </header>

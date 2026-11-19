@@ -83,6 +83,10 @@ export function DashboardShell({ role, children, user }: { role: Role; children:
             <span className="text-sm font-bold lg:text-base">{lang === "bn" ? "লোগো প্রতিযোগিতা" : "Logo Contest"}</span>
           </div>
           <div className="flex items-center gap-3">
+            <a href="https://tauhidrana.vercel.app" target="_blank" rel="noreferrer" className="hidden text-right text-[11px] leading-tight text-muted-foreground transition hover:text-brand-600 xl:block">
+              Made by <strong className="font-extrabold text-foreground">Kazi Tauhid Rana</strong>
+              <br /><span className="font-mono">tauhidrana.vercel.app</span>
+            </a>
             <LanguageToggle />
             {user && <div className="hidden text-right sm:block"><p className="text-xs font-bold">{user.full_name}</p><p className="text-[11px] muted">{user.email}</p></div>}
             <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-leaf-500 text-xs font-extrabold text-white">{(user?.full_name ?? "U").slice(0, 1).toUpperCase()}</div>
