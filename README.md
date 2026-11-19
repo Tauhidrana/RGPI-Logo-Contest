@@ -1,83 +1,71 @@
 # RGPI Logo Design Contest 2026
 
-A production-ready, Bangla-first contest platform for **Rajshahi Government Polytechnic Institute, Rajshahi (Est. 1963)**. Students submit without an account; admins and judges use Supabase Auth. All data is real — no demo/fake entries.
+A Bangla-first, production-ready logo contest platform for **Rajshahi Government Polytechnic Institute, Rajshahi (Est. 1963)**.
 
-Built with **Next.js 15 App Router · TypeScript · Tailwind · shadcn/ui · Supabase (Postgres/Auth/Storage/RLS) · react-hook-form + Zod · Framer Motion · Recharts**.
+Built with **Next.js 15 App Router · TypeScript · Tailwind · shadcn/ui · Supabase (Postgres/Auth/Storage/RLS) · react-hook-form + Zod**. All content and submissions are real — no demo/fake data.
 
-The visual identity uses the official contest artwork: mint canvas, deep teal ink, green / sun-yellow / blue / lime sticker shapes with bold dark outlines.
+> **This repository is public.** Secrets (database keys, admin password, auth tokens) must never be committed. They live only in `.env.local` (gitignored) and in Vercel project environment variables.
 
 ---
 
-## Live deployment (already configured)
+## Live
 
-- **Site:** https://rgpi-logo-contest.vercel.app
-- **Supabase project:** `rgpi-logo-contest` (ref `gvczjtibbbfzjzycigfy`, region ap-south-1), owned by `tauhidrana's projects` org.
-- Migrations + seed applied via Supabase CLI (`supabase link` → `supabase db push` → `supabase db query --linked --file supabase/seed.sql`).
-- Admin created with `npm run seed:admin` in Supabase Auth.
-- Env vars set in Vercel: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `NEXT_PUBLIC_SITE_URL`.
-- No demo/fake submissions exist — the database starts empty.
+Deployed on Vercel (free plan). The public site, admin panel, judge panel, submissions, gallery, tracking, results and rule book are all live.
 
-## 1. Setup (for a fresh project)
+- Site: `https://rgpi-logo-contest.vercel.app`
+- Admin sign-in: open `/admin` and authenticate with the configured admin account.
+
+## Pages
+
+- `/` — landing (contest logo, countdown, themes, required text, formats, rules + key points, timeline, FAQ)
+- `/rules` — full rule book (15 sections, table of contents)
+- `/submit` — 4-step submission (JPG required, AI optional)
+- `/gallery` — published logos with submitter information + lightbox
+- `/track` — status lookup by submission ID + phone
+- `/results` — winners, visible after admin publishes
+- `/admin` and `/judge` — protected panels
+
+## Features
+
+- **Admin** — dashboard charts, submissions table (search/filter/sort/paginate), bulk actions, CSV/ZIP export, detail view with judge scores and signed file downloads, settings, departments, judges, rankings, audit log.
+- **Judge** — anonymous one-by-one review, weighted 1–10 scoring, draft/final submit, progress.
+- **Submit** — client + server validation, real extension/MIME checks, rate limit, honeypot, optional Turnstile, unique `RGPI-LOGO-0001` IDs, duplicate limit.
+- **Security** — service-role key used only in server-only modules; RLS on every table; public cannot insert directly; signed session cookie for fast admin navigation; admin allowlist from a private env variable.
+
+## Local development
 
 ```bash
 npm install
 cp .env.example .env.local
+# Fill .env.local with your own private values, then:
+npm run dev
 ```
 
-Fill `.env.local`:
+Useful commands: `npm run build`, `npm run typecheck`, `npm run lint`, `npm run seed:admin`.
 
-| Variable | Notes |
-|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | **Server only**, never exposed |
-| `ADMIN_EMAIL` | Must be `taujidrana00@gmail.com` |
-| `ADMIN_PASSWORD` | `Tauhidrana00@00@` (default) |
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL |
-| Turnstile keys | Optional bot protection |
+## Supabase setup (fresh project)
 
-Then create the database:
+1. Create a Supabase project.
+2. In SQL Editor run, in order: `supabase/migrations/0001_initial_schema.sql`, `0002_rls_policies.sql`, `0003_storage.sql`, then `supabase/seed.sql`.
+3. Set the private values in `.env.local` and in your hosting provider's environment variables.
+4. Run `npm run seed:admin` to create the admin account in Supabase Auth.
+5. Judge accounts are created from `/admin/judges`.
 
-1. In Supabase SQL Editor run, in order: `supabase/migrations/0001_initial_schema.sql`, `0002_rls_policies.sql`, `0003_storage.sql`, `supabase/seed.sql`.
-2. `npm run seed:admin` — creates the single admin account. Only `taujidrana00@gmail.com` is accepted (enforced in the app and RLS layer).
-3. `npm run dev` → http://localhost:3000
+## Deployment
 
-Sign in at `/admin` (or `/admin/login`) with `taujidrana00@gmail.com` / `Tauhidrana00@00@`. When Supabase is configured, `npm run seed:admin` creates the same account in Supabase Auth. Before Supabase is configured, a signed server-only cookie session using those exact credentials is used instead — still no auto-login and no fake data. Judge accounts are created by the admin from `/admin/judges`.
+Any Next.js host works. On Vercel: import the repo, add the private environment variables in Project Settings, then deploy. `vercel.json` pins functions to the same region as the database for lower latency. A scheduled GitHub Action pings the database so a free Supabase project does not pause.
 
-## 2. Features
+## Repository hygiene
 
-- **Landing** — official contest logo, countdown, themes, required text, colour palette, formats, rules, timeline, FAQ, SEO + OG image.
-- **Submit** — 4-step validated form, drag & drop, **JPG preview required** (max 5 MB), **AI source optional** (max 25 MB), MIME/extension checks, progress, rate limit, honeypot, optional Turnstile, unique `RGPI-LOGO-0001` IDs. Department dropdown: Civil, Mechanical, Electrical, Mechatronics, Electronics, Computer, Electromedical, Power (BN/EN names from `supabase/seed.sql`, mirrored in `src/lib/departments.ts`).
-- **Gallery** — published logos **with submitter information beside each logo** (name, department, semester, session, roll, concept) and a lightbox.
-- **Track / Results** — status lookup; winners only after admin publishes.
-- **Admin** — dashboard charts, submissions table with filters/bulk actions/CSV/ZIP, detail view with score breakdown and signed downloads, judges/departments/settings/audit/rankings.
-- **Judge** — anonymous review, weighted 1–10 scoring, drafts, final submit, progress, card grid.
+- `.env.local`, `.data`, `node_modules`, `.next`, `.vercel` are gitignored.
+- No credentials, project refs or passwords are stored in README or source code.
+- Turnstile and confirmation email are optional / not enabled by default.
 
-## 3. Security
+## Testing checklist
 
-- Service-role key is imported only in server-only modules.
-- RLS on every table; students cannot write directly — all submissions go through the validated `/api/submit` route.
-- Admin email allowlist (`taujidrana00@gmail.com`) is checked server-side on every protected page and API route.
-- `logos-jpg` public for previews, `logos-ai` private with 30-minute signed URLs.
-- Random storage names; sanitised text; 1-minute rate limit and honeypot on submit.
-
-## 4. Deploy
-
-Push to GitHub → import in Vercel → add all env vars → deploy. `middleware.ts` refreshes Supabase auth cookies.
-
-## 5. Testing checklist
-
-- [ ] Only `taujidrana00@gmail.com` can sign in; no demo entry buttons exist.
-- [ ] Submit rejects invalid phone / fake `.ai` / oversized JPG; 4th submission blocked.
-- [ ] Gallery shows each logo with submitter name, department, semester, roll, session and concept; lightbox works.
-- [ ] Track returns correct status; results hidden until published.
-- [ ] Admin filters, bulk actions, CSV/ZIP, settings, judge management, rankings, winners, audit log.
-- [ ] Judge anonymous mode, scoring, drafts/final, progress.
-- [ ] 360px mobile layout has no overflow; EN/বাংলা toggle works everywhere.
-
-## 6. Known limitations
-
-- Rate-limit counters are in-memory per instance; use Redis for strict limits in serverless.
-- No confirmation email is sent (success page + ID serve as confirmation).
-- JPG bucket is public; make it private and use signed URLs if you need published-only visibility.
-- Dark mode tokens exist but have no UI toggle.
+- [ ] Landing countdown, language toggle, FAQ, rule book link
+- [ ] Submit validation, duplicate cap, JPG-only submission
+- [ ] Track, gallery (with submitter info), results visibility
+- [ ] Admin login, filters, bulk actions, exports, settings, rankings
+- [ ] Judge scoring, drafts/final, progress
+- [ ] 360px mobile layout, no console errors

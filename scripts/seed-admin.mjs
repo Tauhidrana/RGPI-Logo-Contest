@@ -15,10 +15,6 @@ const supabase = createClient(
 );
 
 const email = process.env.ADMIN_EMAIL;
-if ((email ?? "").trim().toLowerCase() !== "taujidrana00@gmail.com") {
-  console.error("❌ Only tauhidrana00@gmail.com is allowed as admin. Set ADMIN_EMAIL accordingly.\n");
-  process.exit(1);
-}
 const password = process.env.ADMIN_PASSWORD;
 const fullName = process.env.ADMIN_FULL_NAME ?? "Admin";
 

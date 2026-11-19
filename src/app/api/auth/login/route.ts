@@ -6,8 +6,8 @@ import { ALLOWED_ADMIN_EMAILS } from "@/lib/defaults";
 
 export const runtime = "nodejs";
 
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "taujidrana00@gmail.com").trim().toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "Tauhidrana00@00@";
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? "").trim().toLowerCase();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
 async function signedResponse(role: "admin" | "judge", email: string, req: NextRequest) {
   const token = await createSessionToken(role, email);

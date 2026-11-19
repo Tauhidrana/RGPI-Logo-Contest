@@ -32,4 +32,7 @@ export const DEFAULT_SETTINGS: ContestSettings = {
   winners: { winner: null, first_runner_up: null, second_runner_up: null },
 };
 
-export const ALLOWED_ADMIN_EMAILS = ["taujidrana00@gmail.com"];
+/** Admin allowlist comes from the private server environment — never committed. */
+export const ALLOWED_ADMIN_EMAILS = process.env.ADMIN_EMAIL
+  ? [process.env.ADMIN_EMAIL.trim().toLowerCase()]
+  : [];
