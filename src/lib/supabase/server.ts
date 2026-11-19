@@ -1,5 +1,6 @@
 import "server-only";
 import { createServerClient as createSSRClient, type CookieOptions } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { SERVICE_ROLE_KEY, SUPABASE_ANON_KEY, SUPABASE_URL, isServiceRoleConfigured, isSupabaseConfigured } from "./client";
 
@@ -26,13 +27,17 @@ export async function createServerSupabase() {
 }
 
 /** Service-role client. SERVER ONLY. Bypasses RLS — never import into client code. */
+let adminClient: SupabaseClient | null = null;
+
 export function getAdminClient() {
   if (!isServiceRoleConfigured()) return null;
+  if (adminClient) return adminClient;
   // Lazy require to keep it out of any accidental client bundle.
   const { createClient } = require("@supabase/supabase-js") as typeof import("@supabase/supabase-js");
-  return createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
+  adminClient = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  return adminClient;
 }
 
 /** Returns the current authenticated user's profile, or null. */

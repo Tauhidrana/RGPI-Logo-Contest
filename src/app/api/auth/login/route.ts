@@ -9,6 +9,19 @@ export const runtime = "nodejs";
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "taujidrana00@gmail.com").trim().toLowerCase();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "Tauhidrana00@00@";
 
+async function signedResponse(role: "admin" | "judge", email: string, req: NextRequest) {
+  const token = await createSessionToken(role, email);
+  const res = NextResponse.json({ ok: true, role });
+  res.cookies.set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 8 * 60 * 60,
+    secure: process.env.NODE_ENV === "production" && req.nextUrl.protocol === "https:",
+  });
+  return res;
+}
+
 export async function POST(req: NextRequest) {
   let email = "";
   let password = "";
@@ -32,7 +45,8 @@ export async function POST(req: NextRequest) {
     if (error) return NextResponse.json({ error: error.message }, { status: 401 });
 
     // Only the allowlisted Gmail gets admin access. Others must be active judges.
-    if (ALLOWED_ADMIN_EMAILS.includes(email)) return NextResponse.json({ ok: true, role: "admin" });
+    // Signed cookie lets every later admin request skip Supabase auth + profile lookups.
+    if (ALLOWED_ADMIN_EMAILS.includes(email)) return signedResponse("admin", email, req);
 
     const { data: session } = await supabase.auth.getUser();
     const adminClient = getAdminClient();
@@ -40,7 +54,7 @@ export async function POST(req: NextRequest) {
       ? await adminClient.from("profiles").select("role,is_active").eq("id", session.user.id).maybeSingle()
       : { data: null };
     if (profile?.role === "judge" && profile.is_active) {
-      return NextResponse.json({ ok: true, role: "judge" });
+      return signedResponse("judge", email, req);
     }
     return NextResponse.json({ error: "অনুমোদিত ইমেইল নয়" }, { status: 403 });
   }
@@ -50,14 +64,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "ইমেইল বা পাসওয়ার্ড ভুল" }, { status: 401 });
   }
 
-  const token = await createSessionToken("admin", email);
-  const res = NextResponse.json({ ok: true, role: "admin" });
-  res.cookies.set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 8 * 60 * 60,
-    secure: process.env.NODE_ENV === "production" && req.nextUrl.protocol === "https:",
-  });
-  return res;
+  return signedResponse("admin", email, req);
 }

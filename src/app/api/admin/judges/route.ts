@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "@/lib/auth";
 import { addAudit } from "@/lib/data";
 import { createJudge, deleteJudge, setJudgeActive } from "@/lib/judging";
+import { revalidateAdminData } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
 
@@ -14,6 +15,7 @@ export async function POST(req: NextRequest) {
   const result = await createJudge(body);
   if (!result.ok) return NextResponse.json({ error: result.error ?? "ত্রুটি" }, { status: 400 });
   await addAudit({ actor_id: guard.user.id, actor_email: guard.user.email, action: "judge.create", target: body.email, details: {} });
+    revalidateAdminData();
   return NextResponse.json({ ok: true });
 }
 
@@ -24,6 +26,7 @@ export async function PATCH(req: NextRequest) {
   try {
     await setJudgeActive(body.id, body.is_active);
     await addAudit({ actor_id: guard.user.id, actor_email: guard.user.email, action: "judge.toggle", target: body.id, details: { is_active: body.is_active } });
+    revalidateAdminData();
     return NextResponse.json({ ok: true });
   } catch (e) { return NextResponse.json({ error: e instanceof Error ? e.message : "ত্রুটি" }, { status: 500 }); }
 }
@@ -36,6 +39,7 @@ export async function DELETE(req: NextRequest) {
   try {
     await deleteJudge(id);
     await addAudit({ actor_id: guard.user.id, actor_email: guard.user.email, action: "judge.delete", target: id, details: {} });
+    revalidateAdminData();
     return NextResponse.json({ ok: true });
   } catch (e) { return NextResponse.json({ error: e instanceof Error ? e.message : "ত্রুটি" }, { status: 500 }); }
 }

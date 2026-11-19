@@ -10,9 +10,12 @@ export async function middleware(req: NextRequest) {
   if (!configured) return NextResponse.next();
 
   // Public visitors without a session cookie skip the network round-trip entirely.
+  const hasSignedSession = req.cookies.getAll().some((c) => c.name === "rgpi_admin_session");
   const hasSession =
-    req.cookies.getAll().some((c) => c.name.startsWith("sb-")) ||
-    req.headers.get("authorization")?.startsWith("Bearer ");
+    !hasSignedSession &&
+    (req.cookies.getAll().some((c) => c.name.startsWith("sb-")) ||
+      req.headers.get("authorization")?.startsWith("Bearer "));
+  if (hasSignedSession) return NextResponse.next();
   if (!hasSession && !req.nextUrl.pathname.startsWith("/admin") && !req.nextUrl.pathname.startsWith("/judge")) {
     return NextResponse.next();
   }

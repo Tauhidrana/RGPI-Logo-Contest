@@ -4,6 +4,7 @@ import { getSettings } from "@/lib/settings";
 import { saveScore } from "@/lib/judging";
 import { addAudit } from "@/lib/data";
 import { sanitizeText } from "@/lib/utils";
+import { revalidateAdminData } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
 
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
       is_final: !!body.is_final,
     });
     await addAudit({ actor_id: guard.user.id, actor_email: guard.user.email, action: body.is_final ? "judge.score_final" : "judge.score_draft", target: body.submission_id, details: { total: score.total } });
+    revalidateAdminData();
     return NextResponse.json({ ok: true, score });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "ত্রুটি" }, { status: 500 });

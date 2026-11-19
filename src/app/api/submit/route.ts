@@ -5,6 +5,7 @@ import { addAudit, countSubmissionsBy, insertSubmission, listDepartments, nextSu
 import { AI_BUCKET, JPG_BUCKET } from "@/lib/storage";
 import { submitSchema, validateAi, validateJpg } from "@/lib/validations";
 import { hashString, randomStorageName, sanitizeText } from "@/lib/utils";
+import { revalidateAdminData } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,6 +55,7 @@ export async function POST(req: NextRequest) {
     const honeypot = String(form.get("website_url") ?? "");
     if (honeypot) {
       // Silently accept bots so they think they succeeded.
+    revalidateAdminData();
       return NextResponse.json({ ok: true });
     }
 

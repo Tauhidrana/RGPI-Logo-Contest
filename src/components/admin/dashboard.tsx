@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
-  AreaChart, Area, PieChart, Pie, Cell,
-} from "recharts";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const Charts = dynamic(() => import("./charts"), { ssr: false });
 import {
   Files, Clock3, ListChecks, Users, CalendarDays, ArrowRight, Gavel,
-  Download, TrendingUp, ShieldCheck,
+  Download, ShieldCheck,
 } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import { PageHeader, StatCard, EmptyState } from "@/components/dashboard/ui";
@@ -26,12 +26,8 @@ type Stats = {
   judgeProgress: { id: string; name: string; reviewed: number; total: number }[];
 };
 
-const PIE_COLORS = ["#337df5", "#f59e0b", "#8b5cf6", "#2b9855", "#ef4444"];
-
 export function AdminDashboard({ stats, settings }: { stats: Stats; settings: ContestSettings }) {
   const { lang } = useI18n();
-  const deps = stats.byDepartment.filter((d) => d.count > 0).sort((a, b) => b.count - a.count).slice(0, 8);
-  const statusData = Object.entries(stats.byStatus).map(([name, value]) => ({ name, value }));
   const open = settings.contest_open && new Date(settings.deadline).getTime() > Date.now();
 
   return (
@@ -56,56 +52,9 @@ export function AdminDashboard({ stats, settings }: { stats: Stats; settings: Co
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex-row items-center justify-between"><CardTitle>{lang === "bn" ? "দৈনিক সাবমিশন" : "Submissions per day"}</CardTitle><Badge variant="blue"><TrendingUp className="mr-1 h-3 w-3" />{lang === "bn" ? "ট্রেন্ড" : "Trend"}</Badge></CardHeader>
-          <CardContent className="h-64">
-            {stats.byDay.length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={stats.byDay} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                  <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#337df5" stopOpacity={0.4} /><stop offset="100%" stopColor="#337df5" stopOpacity={0} /></linearGradient></defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="date" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fontSize: 11 }} allowDecimals={false} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", fontSize: 12 }} />
-                  <Area type="monotone" dataKey="count" stroke="#1e5fdb" strokeWidth={2.5} fill="url(#area)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            ) : <EmptyState title={lang === "bn" ? "এখনো ডাটা নেই" : "No data yet"} />}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader><CardTitle>{lang === "bn" ? "অবস্থা" : "Status"}</CardTitle></CardHeader>
-          <CardContent className="h-64">
-            {statusData.length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={52} outerRadius={82} paddingAngle={3}>
-                    {statusData.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
-                  </Pie>
-                  <Tooltip contentStyle={{ borderRadius: 12, fontSize: 12 }} />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : <EmptyState title={lang === "bn" ? "এখনো ডাটা নেই" : "No data yet"} />}
-          </CardContent>
-        </Card>
-
-        <Card className="lg:col-span-2">
-          <CardHeader><CardTitle>{lang === "bn" ? "বিভাগভিত্তিক সাবমিশন" : "Submissions by department"}</CardTitle></CardHeader>
-          <CardContent className="h-72">
-            {deps.length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={deps} layout="vertical" margin={{ left: 10, right: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
-                  <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} />
-                  <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ borderRadius: 12, fontSize: 12 }} cursor={{ fill: "#f1f5f9" }} />
-                  <Bar dataKey="count" fill="#2b9855" radius={[0, 6, 6, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : <EmptyState title={lang === "bn" ? "এখনো ডাটা নেই" : "No data yet"} />}
-          </CardContent>
-        </Card>
+        <Suspense fallback={<div className="col-span-full grid h-72 place-items-center rounded-2xl border bg-card text-sm muted">Loading…</div>}>
+          <Charts stats={stats} lang={lang} />
+        </Suspense>
 
         <Card>
           <CardHeader><CardTitle>{lang === "bn" ? "বিচারকের অগ্রগতি" : "Judge progress"}</CardTitle></CardHeader>

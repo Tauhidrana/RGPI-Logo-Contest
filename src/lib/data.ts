@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { getAdminClient } from "./supabase/server";
 import { getSettings } from "./settings";
@@ -13,7 +14,7 @@ function subSelect() {
   return "*, department:departments(*)";
 }
 
-export async function listSubmissions(opts?: {
+const cachedListSubmissions = unstable_cache(async function listSubmissions(opts?: {
   includeDeleted?: boolean;
   status?: string;
   departmentId?: string;
@@ -36,7 +37,9 @@ export async function listSubmissions(opts?: {
   } catch {
     return [];
   }
-}
+}, ["submissions-v1"], { revalidate: 20, tags: ["submissions"] });
+
+export const listSubmissions = cache((opts?: Parameters<typeof cachedListSubmissions>[0]) => cachedListSubmissions(opts));
 
 export async function getSubmissionById(id: string): Promise<Submission | null> {
   const admin = getAdminClient();

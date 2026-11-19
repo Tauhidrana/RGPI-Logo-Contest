@@ -1,4 +1,6 @@
 import "server-only";
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { getAdminClient } from "./supabase/server";
 import { getSettings } from "./settings";
 import { listSubmissions, listDepartments } from "./data";
@@ -28,14 +30,16 @@ export async function getRankings(): Promise<RankedSubmission[]> {
     .sort((a, b) => b.average - a.average || a.submission.submission_code.localeCompare(b.submission.submission_code));
 }
 
-export async function getAllScores(): Promise<Score[]> {
+const cachedGetAllScores = unstable_cache(async function getAllScores(): Promise<Score[]> {
   const admin = getAdminClient();
   if (!admin) return [];
   const { data, error } = await admin.from("scores").select("*").order("updated_at", { ascending: false });
   if (error) return [];
   const judges = await listJudges();
   return (data ?? []).map((s) => ({ ...(s as Score), judge: judges.find((j) => j.id === s.judge_id) ?? null }));
-}
+}, ["scores-v1"], { revalidate: 20, tags: ["scores"] });
+
+export const getAllScores = cache(() => cachedGetAllScores());
 
 export async function getScoresForSubmission(submissionId: string): Promise<Score[]> {
   return (await getAllScores()).filter((s) => s.submission_id === submissionId);
@@ -71,12 +75,14 @@ export async function saveScore(input: {
   return data as Score;
 }
 
-export async function listJudges(): Promise<Profile[]> {
+const cachedListJudges = unstable_cache(async function listJudges(): Promise<Profile[]> {
   const admin = getAdminClient();
   if (!admin) return [];
   const { data } = await admin.from("profiles").select("*").eq("role", "judge").order("full_name");
   return (data ?? []) as Profile[];
-}
+}, ["judges-v1"], { revalidate: 20, tags: ["judges"] });
+
+export const listJudges = cache(() => cachedListJudges());
 
 export async function createJudge(input: { email: string; password: string; full_name: string }): Promise<{ ok: boolean; error?: string }> {
   const admin = getAdminClient();

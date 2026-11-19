@@ -22,14 +22,18 @@ export async function getAuthUser(): Promise<AuthUser | null> {
   // Signed credential session (works even before Supabase is configured).
   const store = await cookies();
   const session = await readSessionToken(store.get(SESSION_COOKIE)?.value);
-  if (session && ALLOWED_ADMIN_EMAILS.includes(session.email.toLowerCase())) {
-    return {
-      id: `admin-${session.email}`,
-      role: "admin",
-      full_name: session.email.split("@")[0],
-      email: session.email,
-      is_active: true,
-    };
+  if (session) {
+    const email = session.email.toLowerCase();
+    const role: Role = ALLOWED_ADMIN_EMAILS.includes(email) ? "admin" : session.role;
+    if (role === "admin" || role === "judge") {
+      return {
+        id: `session-${role}-${email}`,
+        role,
+        full_name: email.split("@")[0],
+        email,
+        is_active: true,
+      };
+    }
   }
 
   // Otherwise use a real Supabase Auth session.

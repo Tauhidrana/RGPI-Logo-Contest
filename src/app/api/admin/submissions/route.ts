@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/auth";
 import { updateSubmission } from "@/lib/data";
 import { addAudit } from "@/lib/data";
 import type { SubmissionStatus } from "@/lib/types";
+import { revalidateAdminData } from "@/lib/revalidate";
 
 export const runtime = "nodejs";
 
@@ -26,6 +27,7 @@ export async function PATCH(req: NextRequest) {
     } else {
       return NextResponse.json({ error: "অবৈধ অ্যাকশন" }, { status: 400 });
     }
+    revalidateAdminData();
     return NextResponse.json({ ok: true, count: ids.length });
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "ত্রুটি" }, { status: 500 });
