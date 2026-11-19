@@ -17,7 +17,8 @@ export const submitSchema = z.object({
   concept: z.string().trim().min(20, "কমপক্ষে ২০ অক্ষরের ধারণা লিখুন").max(500, "ধারণা ৫০০ অক্ষরের বেশি হতে পারবে না"),
   declaration: z.literal(true, { errorMap: () => ({ message: "মৌলিকতার ঘোষণায় সম্মত হতে হবে" }) }),
   jpg: z.instanceof(File, { message: "JPG ফাইল আপলোড করুন" }),
-  ai: z.instanceof(File, { message: "AI ফাইল আপলোড করুন" }),
+  // AI source is optional — only validated when a file is actually provided.
+  ai: z.union([z.instanceof(File), z.literal(""), z.null()]).optional(),
   honeypot: z.string().optional(),
   turnstileToken: z.string().optional(),
 });

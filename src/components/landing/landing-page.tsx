@@ -32,7 +32,7 @@ const reveal = {
 const faqs: { q: { bn: string; en: string }; a: { bn: string; en: string } }[] = [
   { q: { bn: "কে এই প্রতিযোগিতায় অংশ নিতে পারেন?", en: "Who can participate?" }, a: { bn: "রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউটের বর্তমান শিক্ষার্থীরা অংশ নিতে পারেন। কোনো লগইন বা অ্যাকাউন্টের প্রয়োজন নেই।", en: "Current students of RGPI can participate. No login or account is required." } },
   { q: { bn: "কতটি লোগো জমা দেওয়া যাবে?", en: "How many logos can I submit?" }, a: { bn: "প্রতি শিক্ষার্থী সর্বোচ্চ ৩টি লোগো জমা দিতে পারেন। প্রতিটির জন্য আলাদা JPG ও AI ফাইল লাগবে।", en: "Each student can submit up to 3 logos. Each needs a separate JPG and AI file." } },
-  { q: { bn: "ফাইলের সাইজ কত হতে পারে?", en: "What are the file size limits?" }, a: { bn: "JPG ফাইল সর্বোচ্চ ৫ MB এবং AI (Adobe Illustrator) ফাইল সর্বোচ্চ ২৫ MB হতে পারে।", en: "JPG max 5 MB and AI source max 25 MB." } },
+  { q: { bn: "ফাইলের সাইজ কত হতে পারে?", en: "What are the file size limits?" }, a: { bn: "JPG প্রিভিউ আবশ্যক (সর্বোচ্চ ৫ MB)। AI সোর্স ফাইল ঐচ্ছিক, দিলে সর্বোচ্চ ২৫ MB হতে পারে।", en: "JPG preview is required (max 5 MB). AI source is optional (max 25 MB if provided)." } },
   { q: { bn: "লোগোতে কী লেখা থাকতে হবে?", en: "What text must the logo include?" }, a: { bn: "লোগোতে অবশ্যই «রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউট, রাজশাহী» এবং «১৯৬৩» থাকতে হবে।", en: "The logo must include the institute's name and the year 1963." } },
   { q: { bn: "কীভাবে বিচার করা হবে?", en: "How will entries be judged?" }, a: { bn: "বিচারকরা সৃজনশীলতা, থিমের প্রাসঙ্গিকতা, সরলতা, রঙ ও টাইপোগ্রাফি এবং বাধ্যতামূলক লেখার ব্যবহার — এই পাঁচটি মানদণ্ডে ১–১০ নম্বর দেবেন।", en: "Judges score creativity, theme relevance, simplicity, colour & typography, and use of required text from 1–10." } },
   { q: { bn: "স্থিতি কীভাবে জানব?", en: "How do I check my status?" }, a: { bn: "জমা দেওয়ার পর RGPI-LOGO-0001 আইডি পাবেন। «স্থিতি দেখুন» পেইজে সেই আইডি ও ফোন নম্বর দিয়ে দেখতে পারেন।", en: "After submitting you get an ID like RGPI-LOGO-0001. Use it with your phone on the Track page." } },
@@ -188,8 +188,8 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
             <SectionTitle eyebrow={lang === "bn" ? "ফাইল গাইড" : "File guide"} title={t("format.title")} desc={t("format.desc")} />
             <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
               {[
-                { icon: FileImage, title: t("format.jpg"), size: "5 MB", ext: ".JPG / .JPEG", box: "bg-brand-600" },
-                { icon: FileCode2, title: t("format.ai"), size: "25 MB", ext: ".AI (Illustrator)", box: "bg-sun-400" },
+                { icon: FileImage, title: t("format.jpg"), size: "5 MB", ext: ".JPG / .JPEG", box: "bg-brand-600", tag: lang === "bn" ? "আবশ্যক" : "Required" },
+                { icon: FileCode2, title: t("format.ai"), size: "25 MB", ext: ".AI (Illustrator)", box: "bg-sun-400", tag: lang === "bn" ? "ঐচ্ছিক" : "Optional" },
               ].map((f, i) => {
                 const Icon = f.icon;
                 return (
@@ -197,7 +197,10 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                     <div className={cn("grid h-12 w-12 place-items-center rounded-2xl border-[3px] border-ink text-white shadow-[3px_3px_0_0_#0E2F33]", f.box)}><Icon className="h-6 w-6" /></div>
                     <h3 className="mt-4 text-xl font-extrabold text-ink dark:text-foreground">{f.title}</h3>
                     <p className="text-sm muted">{f.ext}</p>
-                    <Badge variant="outline" className="mt-4 border-2 border-ink">{lang === "bn" ? "সর্বোচ্চ" : "Max"} {f.size}</Badge>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <Badge variant="outline" className="border-2 border-ink">{lang === "bn" ? "সর্বোচ্চ" : "Max"} {f.size}</Badge>
+                      <Badge variant={f.tag === (lang === "bn" ? "আবশ্যক" : "Required") ? "green" : "secondary"} className="border-2 border-ink">{f.tag}</Badge>
+                    </div>
                   </motion.div>
                 );
               })}

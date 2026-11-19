@@ -91,8 +91,11 @@ export async function POST(req: NextRequest) {
 
     const jpgErr = validateJpg(parsed.data.jpg);
     if (jpgErr) return NextResponse.json({ error: jpgErr }, { status: 400 });
-    const aiErr = validateAi(parsed.data.ai);
-    if (aiErr) return NextResponse.json({ error: aiErr }, { status: 400 });
+    const aiFile = parsed.data.ai instanceof File ? parsed.data.ai : null;
+    if (aiFile) {
+      const aiErr = validateAi(aiFile);
+      if (aiErr) return NextResponse.json({ error: aiErr }, { status: 400 });
+    }
 
     if (!(await verifyTurnstile(parsed.data.turnstileToken ?? "", ip))) {
       return NextResponse.json({ error: "রোবোট যাচাইকরণ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।" }, { status: 400 });
@@ -124,15 +127,20 @@ export async function POST(req: NextRequest) {
     }
 
     const jpgName = randomStorageName("jpg");
-    const aiName = randomStorageName("ai");
     const jpgBuf = Buffer.from(await parsed.data.jpg.arrayBuffer());
-    const aiBuf = Buffer.from(await parsed.data.ai.arrayBuffer());
     const jpgU = await admin.storage.from(JPG_BUCKET).upload(jpgName, jpgBuf, { contentType: "image/jpeg", upsert: false });
     if (jpgU.error) throw new Error(`JPG আপলোড ব্যর্থ: ${jpgU.error.message}`);
-    const aiU = await admin.storage.from(AI_BUCKET).upload(aiName, aiBuf, { contentType: "application/octet-stream", upsert: false });
-    if (aiU.error) throw new Error(`AI আপলোড ব্যর্থ: ${aiU.error.message}`);
     const jpgPath = jpgName;
-    const aiPath = aiName;
+
+    // AI source is optional: upload only when supplied.
+    let aiPath = "";
+    if (aiFile) {
+      const aiName = randomStorageName("ai");
+      const aiBuf = Buffer.from(await aiFile.arrayBuffer());
+      const aiU = await admin.storage.from(AI_BUCKET).upload(aiName, aiBuf, { contentType: "application/octet-stream", upsert: false });
+      if (aiU.error) throw new Error(`AI আপলোড ব্যর্থ: ${aiU.error.message}`);
+      aiPath = aiName;
+    }
 
     const code = await nextSubmissionCode();
     const row = {

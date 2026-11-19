@@ -42,8 +42,8 @@ const clientSchema = z.object({
   logo_title: z.string().trim().min(3, "লোগোর শিরোনাম দিন"),
   concept: z.string().trim().min(20, "কমপক্ষে ২০ অক্ষরের ধারণা লিখুন").max(500, "ধারণা ৫০০ অক্ষরের বেশি হতে পারবে না"),
   declaration: z.literal(true, { errorMap: () => ({ message: "মৌলিকতার ঘোষণায় সম্মত হতে হবে" }) }),
-  jpg: z.any().refine(isFile, "JPG ফাইল আপলোড করুন").optional(),
-  ai: z.any().refine(isFile, "AI ফাইল আপলোড করুন").optional(),
+  jpg: z.any().refine(isFile, "JPG ফাইল আপলোড করুন"),
+  ai: z.any().optional(),
   honeypot: z.string().optional(),
 });
 type FormValues = z.infer<typeof clientSchema>;
@@ -91,10 +91,10 @@ function Field({ label, error, hint, children }: { label: string; error?: string
 }
 
 function FileDrop({
-  label, hint, accept, value, error, kind, onChange,
+  label, hint, accept, value, error, kind, onChange, required = true,
 }: {
   label: string; hint: string; accept: string; value: File | null | undefined; error?: string;
-  kind: "jpg" | "ai"; onChange: (f: File | null) => void;
+  kind: "jpg" | "ai"; onChange: (f: File | null) => void; required?: boolean;
 }) {
   const { lang } = useI18n();
   const [drag, setDrag] = useState(false);
@@ -116,7 +116,7 @@ function FileDrop({
 
   return (
     <div className="space-y-2">
-      <Label className="text-sm">{label} <span className="text-red-500">*</span></Label>
+      <Label className="text-sm">{label} {required ? <span className="text-red-500">*</span> : <span className="text-xs font-normal muted">({lang === "bn" ? "ঐচ্ছিক" : "optional"})</span>}</Label>
       <input
         type="file"
         accept={accept}
@@ -195,7 +195,7 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
     if (step === 1) {
       ok = await trigger(["full_name", "department_id", "semester", "roll", "session", "phone", "email", "logo_title", "concept"]);
     } else if (step === 2) {
-      ok = await trigger(["jpg", "ai"]);
+      ok = await trigger(["jpg"]);
     } else if (step === 3) {
       ok = await trigger(["declaration"]);
     }
@@ -328,7 +328,7 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
                         <FileDrop kind="jpg" label={l.jpgTitle} hint={l.jpgHint} accept=".jpg,.jpeg,image/jpeg" value={field.value as File | null | undefined} error={errors.jpg?.message as string | undefined} onChange={field.onChange} />
                       )} />
                       <Controller control={control} name="ai" render={({ field }) => (
-                        <FileDrop kind="ai" label={l.aiTitle} hint={l.aiHint} accept=".ai,.eps,application/postscript,application/octet-stream" value={field.value as File | null | undefined} error={errors.ai?.message as string | undefined} onChange={field.onChange} />
+                        <FileDrop kind="ai" label={l.aiTitle} hint={l.aiHint} required={false} accept=".ai,.eps,application/postscript,application/octet-stream" value={field.value as File | null | undefined} error={errors.ai?.message as string | undefined} onChange={field.onChange} />
                       )} />
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl border p-3"><p className="text-xs font-bold text-brand-600">JPG</p><p className="text-xs muted">{l.jpgHint}</p></div>
@@ -358,7 +358,7 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
                       </div>
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="flex items-center gap-2 rounded-xl border p-3 text-sm"><FileImage className="h-5 w-5 text-brand-500" /><span className="truncate">{String((values.jpg as File | undefined)?.name ?? "")}</span></div>
-                        <div className="flex items-center gap-2 rounded-xl border p-3 text-sm"><FileCode2 className="h-5 w-5 text-amber-500" /><span className="truncate">{String((values.ai as File | undefined)?.name ?? "")}</span></div>
+                        <div className="flex items-center gap-2 rounded-xl border p-3 text-sm"><FileCode2 className="h-5 w-5 text-amber-500" /><span className="truncate">{(values.ai as File | undefined)?.name ?? (lang === "bn" ? "AI ফাইল দেওয়া হয়নি (ঐচ্ছিক)" : "No AI file (optional)")}</span></div>
                       </div>
                       <div className="rounded-2xl border border-brand-200 bg-brand-50/60 p-4 dark:border-brand-900 dark:bg-brand-950/30">
                         <Controller control={control} name="declaration" render={({ field }) => (

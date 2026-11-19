@@ -38,7 +38,7 @@ Sign in at `/admin` (or `/admin/login`) with `taujidrana00@gmail.com` / `Tauhidr
 ## 2. Features
 
 - **Landing** — official contest logo, countdown, themes, required text, colour palette, formats, rules, timeline, FAQ, SEO + OG image.
-- **Submit** — 4-step validated form, drag & drop, JPG preview, MIME/extension checks, progress, rate limit, honeypot, optional Turnstile, unique `RGPI-LOGO-0001` IDs. Department dropdown: Civil, Mechanical, Electrical, Mechatronics, Electronics, Computer, Electromedical, Power (BN/EN names from `supabase/seed.sql`, mirrored in `src/lib/departments.ts`).
+- **Submit** — 4-step validated form, drag & drop, **JPG preview required** (max 5 MB), **AI source optional** (max 25 MB), MIME/extension checks, progress, rate limit, honeypot, optional Turnstile, unique `RGPI-LOGO-0001` IDs. Department dropdown: Civil, Mechanical, Electrical, Mechatronics, Electronics, Computer, Electromedical, Power (BN/EN names from `supabase/seed.sql`, mirrored in `src/lib/departments.ts`).
 - **Gallery** — published logos **with submitter information beside each logo** (name, department, semester, session, roll, concept) and a lightbox.
 - **Track / Results** — status lookup; winners only after admin publishes.
 - **Admin** — dashboard charts, submissions table with filters/bulk actions/CSV/ZIP, detail view with score breakdown and signed downloads, judges/departments/settings/audit/rankings.

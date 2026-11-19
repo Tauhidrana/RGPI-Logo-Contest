@@ -42,14 +42,14 @@ insert into public.settings (key, value) values ('contest_settings', '{
   "rules_bn": [
     "লোগো অবশ্যই মৌলিক হতে হবে। অনুলিপি বা চুরি প্রমাণিত হলে অযোগ্য ঘোষণা করা হবে।",
     "প্রতি অংশগ্রহণকারী সর্বোচ্চ ৩টি লোগো জমা দিতে পারবেন (প্রশাসন পরিবর্তন করতে পারে)।",
-    "JPG ফাইল সর্বোচ্চ ৫ MB এবং AI ফাইল সর্বোচ্চ ২৫ MB হতে হবে।",
+    "JPG প্রিভিউ আবশ্যক (সর্বোচ্চ ৫ MB)। AI সোর্স ফাইল ঐচ্ছিক (দিলে সর্বোচ্চ ২৫ MB)।",
     "লোগোতে বাধ্যতামূলক লেখা অন্তর্ভুক্ত করতে হবে।",
     "বিচারকদের সিদ্ধান্ত চূড়ান্ত।"
   ],
   "rules_en": [
     "The logo must be original. Plagiarism leads to disqualification.",
     "Each participant may submit at most 3 logos (configurable).",
-    "JPG max 5 MB, AI max 25 MB.",
+    "JPG preview is required (max 5 MB); AI source is optional (max 25 MB if provided).",
     "The logo must include the required text.",
     "Judges' decision is final."
   ],

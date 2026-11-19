@@ -108,7 +108,7 @@ export function SubmissionDetail({ submission, scores, weights, anonymous }: { s
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Button variant="outline" size="sm" onClick={() => openFile(submission.jpg_path, "jpg", true)}><Download className="h-4 w-4" /> JPG</Button>
-                <Button variant="outline" size="sm" onClick={() => openFile(submission.ai_path, "ai", true)}><Download className="h-4 w-4" /> AI</Button>
+                {submission.ai_path && <Button variant="outline" size="sm" onClick={() => openFile(submission.ai_path, "ai", true)}><Download className="h-4 w-4" /> AI</Button>}
                 <Button variant="outline" size="sm" onClick={() => openFile(submission.jpg_path, "jpg", false)}><ZoomIn className="h-4 w-4" />{lang === "bn" ? "নতুন ট্যাবে" : "New tab"}</Button>
               </div>
             </CardContent>

@@ -70,7 +70,7 @@ export const dictionary = {
   "color.green": { bn: "সবুজ — ক্যাম্পাস ও প্রকৃতি", en: "Green — campus & nature" },
 
   "format.title": { bn: "ফাইল ফরম্যাট", en: "File formats" },
-  "format.desc": { bn: "জমা দেওয়ার জন্য দুটি ফাইল আবশ্যক", en: "Two files are required for submission" },
+  "format.desc": { bn: "JPG প্রিভিউ আবশ্যক · AI সোর্স ফাইল ঐচ্ছিক", en: "JPG preview is required · AI source file is optional" },
   "format.jpg": { bn: "JPG প্রিভিউ", en: "JPG preview" },
   "format.ai": { bn: "AI সোর্স ফাইল", en: "AI source file" },
 
