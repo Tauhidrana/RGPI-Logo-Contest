@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Turnstile } from "./turnstile";
+import { compressJpg } from "@/lib/image";
 import { validateAi, validateJpg, MAX_AI, MAX_JPG } from "@/lib/validations";
 import type { ContestSettings, Department } from "@/lib/types";
 import { cn, fileSizeLabel } from "@/lib/utils";
@@ -99,18 +100,35 @@ function FileDrop({
   const [drag, setDrag] = useState(false);
   const [preview, setPreview] = useState<string>("");
   const [localErr, setLocalErr] = useState<string>("");
+  const [processing, setProcessing] = useState(false);
+  const [compressed, setCompressed] = useState(false);
 
-  const handle = useCallback((file: File | undefined) => {
+  const handle = useCallback(async (file: File | undefined) => {
     if (!file) return;
     const err = kind === "jpg" ? validateJpg(file) : validateAi(file);
-    if (err) {
+    // Oversized JPGs are compressed first; other errors are shown immediately.
+    const canCompress = kind === "jpg" && !!err && err.includes("৫ MB");
+    if (err && !canCompress) {
       setLocalErr(err);
       toast.error(err);
       return;
     }
     setLocalErr("");
-    onChange(file);
-    if (kind === "jpg") setPreview(URL.createObjectURL(file));
+    let final = file;
+    if (kind === "jpg") {
+      setProcessing(true);
+      final = await compressJpg(file);
+      setProcessing(false);
+      const finalErr = validateJpg(final);
+      if (finalErr) {
+        setLocalErr(finalErr);
+        toast.error(finalErr);
+        return;
+      }
+      if (final.size < file.size) setCompressed(true);
+    }
+    onChange(final);
+    if (kind === "jpg") setPreview(URL.createObjectURL(final));
   }, [kind, onChange]);
 
   return (
@@ -134,8 +152,9 @@ function FileDrop({
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-bold">{value.name}</p>
             <p className="text-xs muted">{fileSizeLabel(value.size)} · {kind === "jpg" ? L[lang].jpgTitle : L[lang].aiTitle}</p>
+            {compressed && kind === "jpg" && <p className="mt-0.5 text-[11px] font-semibold text-leaf-600">{lang === "bn" ? "স্বয়ংক্রিয়ভাবে কম্প্রেস করা হয়েছে" : "Auto-compressed for upload"}</p>}
           </div>
-          <button type="button" onClick={() => { onChange(null); setPreview(""); setLocalErr(""); }} className="grid h-8 w-8 place-items-center rounded-lg hover:bg-red-100 hover:text-red-600" aria-label={L[lang].remove}>
+          <button type="button" onClick={() => { onChange(null); setPreview(""); setLocalErr(""); setCompressed(false); }} className="grid h-8 w-8 place-items-center rounded-lg hover:bg-red-100 hover:text-red-600" aria-label={L[lang].remove}>
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -152,8 +171,8 @@ function FileDrop({
           )}
         >
           {kind === "jpg" ? <CloudUpload className="h-8 w-8 text-brand-500" /> : <FileCode2 className="h-8 w-8 text-amber-500" />}
-          <span className="text-sm font-semibold">{L[lang].drop}</span>
-          <span className="text-xs muted">{hint}</span>
+          <span className="text-sm font-semibold">{processing ? (lang === "bn" ? "কম্প্রেস হচ্ছে…" : "Optimizing…") : L[lang].drop}</span>
+          <span className="text-xs muted">{processing ? (lang === "bn" ? "ফাইল ছোট করা হচ্ছে" : "Making the file smaller") : hint}</span>
         </button>
       )}
       {(error || localErr) && <p className="text-xs font-medium text-red-600">{error || localErr}</p>}

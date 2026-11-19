@@ -7,7 +7,7 @@ import { Suspense } from "react";
 const Charts = dynamic(() => import("./charts"), { ssr: false });
 import {
   Files, Clock3, ListChecks, Users, CalendarDays, ArrowRight, Gavel,
-  Download, ShieldCheck,
+  Download, ShieldCheck, HardDrive,
 } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import { PageHeader, StatCard, EmptyState } from "@/components/dashboard/ui";
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { formatDateTime } from "@/lib/utils";
+import { fileSizeLabel, formatDateTime } from "@/lib/utils";
 import type { ContestSettings } from "@/lib/types";
 
 type Stats = {
@@ -26,8 +26,13 @@ type Stats = {
   judgeProgress: { id: string; name: string; reviewed: number; total: number }[];
 };
 
-export function AdminDashboard({ stats, settings }: { stats: Stats; settings: ContestSettings }) {
+type Storage = { jpg_bytes: number; jpg_files: number; ai_bytes: number; ai_files: number };
+const FREE_STORAGE = 1024 * 1024 * 1024; // 1 GB on Supabase Free
+
+export function AdminDashboard({ stats, settings, storage }: { stats: Stats; settings: ContestSettings; storage: Storage }) {
   const { lang } = useI18n();
+  const used = storage.jpg_bytes + storage.ai_bytes;
+  const usedPct = Math.min(100, Math.round((used / FREE_STORAGE) * 100));
   const open = settings.contest_open && new Date(settings.deadline).getTime() > Date.now();
 
   return (
@@ -87,6 +92,24 @@ export function AdminDashboard({ stats, settings }: { stats: Stats; settings: Co
             {settings.judging_locked && <Badge variant="amber"><Gavel className="mr-1 h-3 w-3" />{lang === "bn" ? "বিচার লক" : "Judging locked"}</Badge>}
             <Button asChild variant="outline" size="sm"><Link href="/admin/rankings"><ArrowRight className="h-4 w-4" />{lang === "bn" ? "র‍্যাঙ্কিং" : "Rankings"}</Link></Button>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-5">
+        <CardHeader className="flex-row items-center justify-between">
+          <CardTitle className="flex items-center gap-2"><HardDrive className="h-5 w-5 text-brand-600" />{lang === "bn" ? "স্টোরেজ ব্যবহার" : "Storage usage"}</CardTitle>
+          <Badge variant={usedPct >= 80 ? "red" : "green"}>{fileSizeLabel(used)} / 1 GB · {usedPct}%</Badge>
+        </CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <div className="mb-1.5 flex justify-between text-xs"><span className="font-bold">JPG · {storage.jpg_files} {lang === "bn" ? "টি ফাইল" : "files"}</span><span className="muted">{fileSizeLabel(storage.jpg_bytes)}</span></div>
+            <Progress value={Math.min(100, (storage.jpg_bytes / FREE_STORAGE) * 100)} indicatorClassName="bg-brand-500" />
+          </div>
+          <div>
+            <div className="mb-1.5 flex justify-between text-xs"><span className="font-bold">AI · {storage.ai_files} {lang === "bn" ? "টি ফাইল" : "files"}</span><span className="muted">{fileSizeLabel(storage.ai_bytes)}</span></div>
+            <Progress value={Math.min(100, (storage.ai_bytes / FREE_STORAGE) * 100)} indicatorClassName="bg-leaf-500" />
+          </div>
+          <p className="text-xs muted sm:col-span-2">{lang === "bn" ? "Supabase Free প্ল্যানে মোট ১ GB ফাইল স্টোরেজ available। ৮০%-এ পৌঁছালে প্ল্যান আপগ্রেড বা পুরোনো ফাইল পরিষ্কারের কথা ভাবুন।" : "Supabase Free includes 1 GB of file storage. Consider upgrading or cleaning old files at 80%."}</p>
         </CardContent>
       </Card>
     </>

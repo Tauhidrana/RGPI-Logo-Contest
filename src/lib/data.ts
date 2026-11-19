@@ -131,6 +131,21 @@ export async function addAudit(entry: Omit<AuditLog, "id" | "created_at">): Prom
   try { await admin.from("audit_logs").insert(row); } catch { /* non-blocking */ }
 }
 
+export type StorageUsage = { jpg_bytes: number; jpg_files: number; ai_bytes: number; ai_files: number };
+
+export async function getStorageUsage(): Promise<StorageUsage> {
+  const empty = { jpg_bytes: 0, jpg_files: 0, ai_bytes: 0, ai_files: 0 };
+  const admin = getAdminClient();
+  if (!admin) return empty;
+  try {
+    const { data, error } = await admin.rpc("get_storage_usage");
+    if (error || !data) return empty;
+    return data as unknown as StorageUsage;
+  } catch {
+    return empty;
+  }
+}
+
 export async function listAudit(): Promise<AuditLog[]> {
   const admin = getAdminClient();
   if (!admin) return [];

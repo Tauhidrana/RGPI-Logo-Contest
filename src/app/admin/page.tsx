@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getAuthUser } from "@/lib/auth";
 import { getDashboardStats } from "@/lib/judging";
+import { getStorageUsage } from "@/lib/data";
 import { getSettings } from "@/lib/settings";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { AdminDashboard } from "@/components/admin/dashboard";
@@ -12,10 +13,10 @@ export default async function AdminHome() {
   const user = await getAuthUser();
   // `/admin` itself opens the sign-in screen when not authenticated.
   if (!user || user.role !== "admin" || !user.is_active) return <LoginPage />;
-  const [stats, settings] = await Promise.all([getDashboardStats(), getSettings()]);
+  const [stats, settings, storage] = await Promise.all([getDashboardStats(), getSettings(), getStorageUsage()]);
   return (
     <DashboardShell role="admin" user={user}>
-      <AdminDashboard stats={stats} settings={settings} />
+      <AdminDashboard stats={stats} settings={settings} storage={storage} />
     </DashboardShell>
   );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CheckCircle2, Copy, Check, Home, Search, Mail, Phone, User, Trophy, Download, Loader2, Building2 } from "lucide-react";
+import { CheckCircle2, Copy, Check, Home, Search, Mail, Phone, User, Trophy, Download, Loader2, Building2, Share2, MessageCircle, Facebook } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
@@ -24,6 +24,7 @@ export default function SuccessPage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [copied, setCopied] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [shareUrl, setShareUrl] = useState("");
 
   useEffect(() => {
     try {
@@ -33,6 +34,7 @@ export default function SuccessPage() {
         if (parsed.code === code) setSummary(parsed.summary ?? null);
       }
     } catch { /* ignore */ }
+    setShareUrl(window.location.href);
   }, [code]);
 
   function copy() {
@@ -64,6 +66,10 @@ export default function SuccessPage() {
     }
   }
 
+  const shareText = lang === "bn"
+    ? `আমি RGPI লোগো ডিজাইন প্রতিযোগিতায় অংশ নিয়েছি! সাবমিশন আইডি: ${code}`
+    : `I participated in the RGPI Logo Design Contest! Submission ID: ${code}`;
+
   return (
     <div className="flex min-h-screen flex-col bg-slate-50/70 dark:bg-slate-950/40">
       <SiteHeader />
@@ -90,6 +96,13 @@ export default function SuccessPage() {
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
                 {lang === "bn" ? "কার্ড ডাউনলোড করুন (PNG)" : "Download card (PNG)"}
               </Button>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {typeof navigator !== "undefined" && navigator.share ? (
+                  <Button type="button" variant="outline" size="sm" onClick={() => navigator.share({ title: "RGPI Logo Contest", text: shareText, url: shareUrl }).catch(() => {})}><Share2 className="h-4 w-4" />{lang === "bn" ? "শেয়ার" : "Share"}</Button>
+                ) : null}
+                <Button asChild variant="outline" size="sm"><a href={`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`} target="_blank" rel="noreferrer"><MessageCircle className="h-4 w-4" /> WhatsApp</a></Button>
+                <Button asChild variant="outline" size="sm"><a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer"><Facebook className="h-4 w-4" /> Facebook</a></Button>
+              </div>
 
               {summary && (
                 <div className="mt-7 space-y-3 rounded-2xl border bg-slate-50 p-5 dark:bg-slate-900/40">
