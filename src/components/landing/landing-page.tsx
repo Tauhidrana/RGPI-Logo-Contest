@@ -60,7 +60,7 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
     { key: "theme.green", icon: Leaf, box: "bg-brand-600" },
   ];
 
-  const ruleIcons = { shield: ShieldCheck, hash: Hash, file: FileImage, pen: PenLine, gavel: Gavel, calendar: CalendarDays };
+  const ruleIcons = { cog: Cog, shield: ShieldCheck, pen: PenLine, palette: Palette, file: FileImage, calendar: CalendarDays };
 
   function copyText() {
     navigator.clipboard.writeText(`${REQUIRED_TEXT} — ${REQUIRED_YEAR}`).then(() => {

@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import {
-  BookOpen, ShieldCheck, Hash, FileImage, PenLine, Gavel, CalendarDays,
-  ArrowRight, List, CheckCircle2, Info, Download,
+  BookOpen, ArrowRight, List, CheckCircle2, Info, Download, Sparkles,
 } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
@@ -12,14 +11,23 @@ import { SiteFooter } from "@/components/shared/site-footer";
 import { ContestLogo } from "@/components/shared/contest-logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { RULE_BOOK_META, RULE_SECTIONS, type RuleBlock } from "@/lib/rulebook";
-
-const highlightIcons = {
-  shield: ShieldCheck, hash: Hash, file: FileImage, pen: PenLine, gavel: Gavel, calendar: CalendarDays,
-};
+import { RULE_BOOK_META, RULE_INTRO, RULE_SECTIONS, type RuleBlock } from "@/lib/rulebook";
 
 function Block({ block }: { block: RuleBlock }) {
   if (block.type === "p") return <p className="text-sm leading-7 text-foreground/85">{block.text}</p>;
+  if (block.type === "subhead") {
+    return <h3 className="pt-2 text-sm font-extrabold text-brand-700 dark:text-brand-300">{block.text}</h3>;
+  }
+  if (block.type === "concept") {
+    return (
+      <div className="rounded-2xl border-[3px] border-ink bg-leaf-50 p-4 shadow-[3px_3px_0_0_#0E2F33] dark:bg-leaf-950/20">
+        <p className="flex items-center gap-2 text-sm font-extrabold text-ink dark:text-foreground"><Sparkles className="h-4 w-4 text-leaf-600" />{block.title}</p>
+        <ul className="mt-2 space-y-1.5">
+          {block.items.map((item, i) => <li key={i} className="flex gap-2 text-sm leading-6 text-foreground/80"><span className="text-leaf-600">•</span>{item}</li>)}
+        </ul>
+      </div>
+    );
+  }
   if (block.type === "note") {
     return (
       <div className="flex gap-3 rounded-xl border-[3px] border-ink bg-sun-50 p-4 text-sm font-semibold text-ink shadow-[3px_3px_0_0_#0E2F33] dark:bg-sun-950/30 dark:text-foreground">
@@ -70,8 +78,12 @@ export function RuleBookPage() {
             <div className="mx-auto w-56 sm:w-72"><ContestLogo variant="compact" /></div>
             <div className="mt-6 flex justify-center"><span className="pill-outline bg-leaf-100 dark:bg-leaf-900/40"><BookOpen className="h-4 w-4" /> Rule Book · v1.0</span></div>
             <h1 className="mt-5 text-4xl font-extrabold text-ink sm:text-6xl dark:text-foreground"><span className="highlight">নিয়মাবলি</span></h1>
-            <p className="mx-auto mt-4 max-w-2xl text-sm font-semibold text-ink/80 dark:text-foreground/80">{RULE_BOOK_META.institute}</p>
-            <p className="mt-2 text-xs muted">{RULE_BOOK_META.published}</p>
+            <p className="mt-4 text-xs font-extrabold uppercase tracking-widest text-brand-600">{RULE_BOOK_META.tagline}</p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold text-ink/80 dark:text-foreground/80">{RULE_BOOK_META.institute}</p>
+            <div className="mx-auto mt-5 max-w-3xl space-y-3 text-left">
+              {RULE_INTRO.map((p, i) => <p key={i} className="text-sm leading-7 text-foreground/80">{p}</p>)}
+            </div>
+            <p className="mt-4 text-xs muted">{RULE_BOOK_META.published}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button asChild variant="brand"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
               <Button asChild variant="outline"><a href="/contest-logo.svg" download><Download className="h-4 w-4" /> Contest logo</a></Button>
@@ -107,6 +119,7 @@ export function RuleBookPage() {
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border-[3px] border-ink bg-sun-300 text-lg font-extrabold text-ink shadow-[3px_3px_0_0_#0E2F33]">{s.num}</span>
                   <div>
                     <h2 className="text-xl font-extrabold text-ink sm:text-2xl dark:text-foreground">{s.title}</h2>
+                    {s.sub && <p className="mt-0.5 text-xs font-bold text-brand-600">{s.sub}</p>}
                     <div className="mt-1 h-1 w-12 rounded-full bg-leaf-500" />
                   </div>
                 </div>
