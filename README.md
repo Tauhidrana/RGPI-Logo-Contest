@@ -8,7 +8,16 @@ The visual identity uses the official contest artwork: mint canvas, deep teal in
 
 ---
 
-## 1. Setup
+## Live deployment (already configured)
+
+- **Site:** https://rgpi-logo-contest.vercel.app
+- **Supabase project:** `rgpi-logo-contest` (ref `gvczjtibbbfzjzycigfy`, region ap-south-1), owned by `tauhidrana's projects` org.
+- Migrations + seed applied via Supabase CLI (`supabase link` → `supabase db push` → `supabase db query --linked --file supabase/seed.sql`).
+- Admin created with `npm run seed:admin` in Supabase Auth.
+- Env vars set in Vercel: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `NEXT_PUBLIC_SITE_URL`.
+- No demo/fake submissions exist — the database starts empty.
+
+## 1. Setup (for a fresh project)
 
 ```bash
 npm install

@@ -51,7 +51,7 @@ insert into public.settings (key, value) values ('contest_settings', '{
     "Each participant may submit at most 3 logos (configurable).",
     "JPG preview is required (max 5 MB); AI source is optional (max 25 MB if provided).",
     "The logo must include the required text.",
-    "Judges' decision is final."
+    "Judges'' decision is final."
   ],
   "theme_bn": "লোগোতে রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউটের বিভাগসমূহ, প্রকৌশলী প্রতিষ্ঠানের পরিচয়, শিক্ষার প্রতীক ও সবুজ ক্যাম্পাসের ধারণা প্রতিফলিত হতে হবে।",
   "theme_en": "The design should reflect RGPI''s departments, an engineering institute identity, a symbol of education, and a green campus.",
