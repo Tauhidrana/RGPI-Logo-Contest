@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 935" role="img" aria-label="RGPI Logo Design Contest 2026">
+  <rect width="1000" height="935" fill="#F3FAF1"/>
+  <g fill="#D92D2D">
+    <polygon points="90,34 105,39 121,33 133,45 146,45 153,59 166,65 165,79 176,89 170,103 176,116 165,126 166,140 153,146 146,160 133,160 121,172 105,166 90,172 75,166 59,172 47,160 34,160 27,146 14,140 15,126 4,116 10,103 4,89 15,79 14,65 27,59 34,45 47,45 59,33 75,39"/>
+  </g>
+  <circle cx="90" cy="103" r="42" fill="#fff"/><circle cx="90" cy="103" r="35" fill="#D92D2D"/>
+  <text x="90" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fff">রাজশাহী</text>
+  <text x="90" y="108" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fff">সরকারি</text>
+  <text x="90" y="124" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#fff">পলিটেকনিক</text>
+  <text x="185" y="92" font-family="Arial,sans-serif" font-weight="800" font-size="41" fill="#0E2F33">RAJSHAHI GOVT.</text>
+  <text x="185" y="140" font-family="Arial,sans-serif" font-weight="800" font-size="41" fill="#0E2F33">POLYTECHNIC INSTITUTE</text>
+  <rect x="765" y="62" width="200" height="72" rx="36" fill="#F9B825" stroke="#0E2F33" stroke-width="6"/>
+  <text x="865" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="35" fill="#0E2F33">EST. 1963</text>
+
+  <g transform="rotate(-4 275 300)">
+    <rect x="196" y="222" width="192" height="182" rx="34" fill="#F9B825"/>
+    <rect x="180" y="210" width="192" height="182" rx="34" fill="#16A34A" stroke="#0E2F33" stroke-width="7"/>
+    <text x="276" y="352" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="150" fill="#fff">L</text>
+  </g>
+  <rect x="410" y="222" width="180" height="180" rx="34" fill="#F9B825"/>
+  <circle cx="495" cy="305" r="96" fill="#F9B825" stroke="#0E2F33" stroke-width="7"/>
+  <circle cx="495" cy="305" r="49" fill="#0E2F33"/><circle cx="495" cy="305" r="23" fill="#F9B825"/>
+  <g transform="rotate(4 700 300)">
+    <rect x="622" y="222" width="188" height="182" rx="34" fill="#2563EB"/>
+    <rect x="606" y="210" width="188" height="182" rx="34" fill="#2563EB" stroke="#0E2F33" stroke-width="7"/>
+    <text x="700" y="352" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="146" fill="#fff">G</text>
+  </g>
+  <rect x="830" y="222" width="178" height="180" rx="34" fill="#A3CF3A"/>
+  <circle cx="918" cy="305" r="96" fill="#A3CF3A" stroke="#0E2F33" stroke-width="7"/>
+  <circle cx="918" cy="305" r="49" fill="#0E2F33"/><circle cx="918" cy="305" r="23" fill="#A3CF3A"/>
+
+  <rect x="100" y="434" width="800" height="180" rx="52" fill="#0E2F33"/>
+  <g fill="#3C6A67"><rect x="132" y="450" width="5" height="22" rx="2"/><rect x="166" y="450" width="5" height="22" rx="2"/><rect x="200" y="450" width="5" height="22" rx="2"/><rect x="234" y="450" width="5" height="22" rx="2"/><rect x="268" y="450" width="5" height="22" rx="2"/><rect x="302" y="450" width="5" height="22" rx="2"/><rect x="336" y="450" width="5" height="22" rx="2"/><rect x="370" y="450" width="5" height="22" rx="2"/><rect x="404" y="450" width="5" height="22" rx="2"/><rect x="438" y="450" width="5" height="22" rx="2"/><rect x="472" y="450" width="5" height="22" rx="2"/><rect x="506" y="450" width="5" height="22" rx="2"/><rect x="540" y="450" width="5" height="22" rx="2"/><rect x="574" y="450" width="5" height="22" rx="2"/><rect x="608" y="450" width="5" height="22" rx="2"/><rect x="642" y="450" width="5" height="22" rx="2"/><rect x="676" y="450" width="5" height="22" rx="2"/><rect x="710" y="450" width="5" height="22" rx="2"/><rect x="744" y="450" width="5" height="22" rx="2"/><rect x="778" y="450" width="5" height="22" rx="2"/><rect x="812" y="450" width="5" height="22" rx="2"/><rect x="846" y="450" width="5" height="22" rx="2"/><rect x="880" y="450" width="5" height="22" rx="2"/></g>
+  <text x="500" y="560" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="112" letter-spacing="9" fill="#F9B825">DESIGN</text>
+  <text x="100" y="738" font-family="Arial,sans-serif" font-weight="800" font-size="118" letter-spacing="3" fill="#2563EB">CONTEST</text>
+  <circle cx="884" cy="704" r="86" fill="#0E2F33"/>
+  <circle cx="870" cy="690" r="86" fill="#F9B825" stroke="#0E2F33" stroke-width="7"/>
+  <text x="870" y="710" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="46" fill="#0E2F33">2026</text>
+  <path d="M928 748 L982 762 L946 800 Z" fill="#0E2F33"/>
+  <text x="500" y="838" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="58" fill="#16A34A">লোগো ডিজাইন প্রতিযোগিতা</text>
+  <g font-family="Arial,sans-serif" font-weight="700" font-size="26" fill="#0E2F33">
+    <rect x="120" y="862" width="190" height="62" rx="31" fill="#fff" stroke="#0E2F33" stroke-width="5"/><text x="215" y="903" text-anchor="middle">Departments</text>
+    <rect x="330" y="862" width="190" height="62" rx="31" fill="#fff" stroke="#0E2F33" stroke-width="5"/><text x="425" y="903" text-anchor="middle">Engineering</text>
+    <rect x="540" y="862" width="190" height="62" rx="31" fill="#fff" stroke="#0E2F33" stroke-width="5"/><text x="635" y="903" text-anchor="middle">Education</text>
+    <rect x="750" y="862" width="220" height="62" rx="31" fill="#A3CF3A" stroke="#0E2F33" stroke-width="5"/><text x="860" y="903" text-anchor="middle">Green Campus</text>
+  </g>
+</svg>
