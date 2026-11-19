@@ -16,6 +16,7 @@ const links: { href: string; key: DictKey }[] = [
   { href: "/gallery", key: "nav.gallery" },
   { href: "/track", key: "nav.track" },
   { href: "/results", key: "nav.results" },
+  { href: "/rules", key: "nav.rules" },
 ];
 
 export function SiteHeader() {

@@ -423,7 +423,10 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
             </CardContent>
           </Card>
           <p className="mt-4 text-center text-xs muted">
-            {lang === "bn" ? "কোনো অ্যাকাউন্টের প্রয়োজন নেই · " : "No account needed · "}<Link href="/track" className="font-semibold text-brand-600 hover:underline">{l.track}</Link>
+            {lang === "bn" ? "কোনো অ্যাকাউন্টের প্রয়োজন নেই · " : "No account needed · "}
+            <Link href="/rules" className="font-semibold text-brand-600 hover:underline">{lang === "bn" ? "নিয়মাবলি" : "Rule book"}</Link>
+            <span className="mx-1">·</span>
+            <Link href="/track" className="font-semibold text-brand-600 hover:underline">{l.track}</Link>
           </p>
         </div>
       </main>

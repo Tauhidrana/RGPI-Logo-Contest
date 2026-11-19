@@ -5,6 +5,7 @@ import {
   ArrowRight, Building2, Cog, GraduationCap, Leaf, FileImage, FileCode2,
   ClipboardList, Gavel, Trophy, Copy, Check, CalendarDays, HelpCircle,
   Sparkles, ChevronDown, LockKeyhole, Palette, PartyPopper,
+  ShieldCheck, Hash, PenLine, BookOpen,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatDateTime } from "@/lib/utils";
+import { RULE_HIGHLIGHTS } from "@/lib/rulebook";
 import type { ContestSettings } from "@/lib/types";
 import type { DictKey } from "@/lib/i18n/dict";
 
@@ -57,6 +59,8 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
     { key: "theme.education", icon: GraduationCap, box: "bg-sun-400" },
     { key: "theme.green", icon: Leaf, box: "bg-brand-600" },
   ];
+
+  const ruleIcons = { shield: ShieldCheck, hash: Hash, file: FileImage, pen: PenLine, gavel: Gavel, calendar: CalendarDays };
 
   function copyText() {
     navigator.clipboard.writeText(`${REQUIRED_TEXT} — ${REQUIRED_YEAR}`).then(() => {
@@ -237,6 +241,33 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RULE BOOK KEY POINTS */}
+        <section className="section-pad bg-white/60 dark:bg-slate-950/40">
+          <div className="container-pad">
+            <SectionTitle
+              eyebrow={lang === "bn" ? "নিয়ম এক নজরে" : "Rules at a glance"}
+              title={lang === "bn" ? "নিয়মাবলির মূল পয়েন্ট" : "Key points from the rule book"}
+              desc={lang === "bn" ? "সম্পূর্ণ নিয়মাবলি পড়ুন — অংশগ্রহণের আগে জেনে নিন সব শর্ত।" : "Read the full rule book before you submit."}
+            />
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {RULE_HIGHLIGHTS.map((h, i) => {
+                const Icon = ruleIcons[h.icon];
+                return (
+                  <div key={h.icon} className="sticker sticker-hover p-5">
+                    <div className="grid h-11 w-11 place-items-center rounded-xl border-[3px] border-ink bg-sun-300 text-ink shadow-[3px_3px_0_0_#0E2F33]"><Icon className="h-5 w-5" /></div>
+                    <p className="mt-4 text-base font-extrabold text-ink dark:text-foreground">{lang === "bn" ? h.bn : h.en}</p>
+                    <p className="mt-1 text-sm leading-relaxed muted">{h.detail}</p>
+                    <span className="mt-3 inline-block text-[11px] font-extrabold text-brand-600">#{i + 1}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-8 flex justify-center">
+              <Button asChild variant="brand" size="lg"><Link href="/rules"><BookOpen className="h-4 w-4" /> {lang === "bn" ? "সম্পূর্ণ নিয়মাবলি দেখুন" : "Read the full rule book"} <ArrowRight className="h-4 w-4" /></Link></Button>
             </div>
           </div>
         </section>

@@ -6,6 +6,7 @@ export const dictionary = {
   "nav.gallery": { bn: "গ্যালারি", en: "Gallery" },
   "nav.track": { bn: "স্থিতি দেখুন", en: "Track status" },
   "nav.results": { bn: "ফলাফল", en: "Results" },
+  "nav.rules": { bn: "নিয়মাবলি", en: "Rule book" },
   "nav.admin": { bn: "অ্যাডমিন", en: "Admin" },
   "nav.judge": { bn: "বিচারক", en: "Judge" },
   "nav.login": { bn: "লগ ইন", en: "Sign in" },
