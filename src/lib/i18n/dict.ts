@@ -117,6 +117,13 @@ export const dictionary = {
   "results.first": { bn: "প্রথম রানার-আপ", en: "1st runner-up" },
   "results.second": { bn: "দ্বিতীয় রানার-আপ", en: "2nd runner-up" },
 
+  "footer.address": { bn: "সপুরা, রাজশাহী ৬২০৩", en: "Sapura, Rajshahi 6203" },
+  "footer.infoTitle": { bn: "যেকোনো তথ্যের জন্য যোগাযোগ করুন", en: "Contact for any information" },
+  "footer.infoNote": { bn: "হোয়াটসঅ্যাপেও যোগাযোগ করা যাবে", en: "Available on WhatsApp too" },
+  "footer.contactName": { bn: "প্রকৌশলী মোঃ আজিজুল আমান আল আমিন", en: "Engr. Md. Azizul Aman Al Amin" },
+  "footer.contactRole": { bn: "চিফ ইন্সট্রাক্টর ও বিভাগীয় প্রধান (১ম শিফট)", en: "Chief Instructor & Head of Department (1st Shift)" },
+  "footer.contactDept": { bn: "কম্পিউটার সাইন্স এন্ড টেকনোলজি", en: "Computer Science and Technology" },
+  "footer.contactLabel": { bn: "আয়োজক কমিটির যোগাযোগ", en: "Organizing committee contact" },
   "footer.about": { bn: "প্রতিষ্ঠান সম্পর্কে", en: "About the institute" },
   "footer.aboutText": { bn: "রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউট, রাজশাহী — ১৯৬৩ সালে প্রতিষ্ঠিত একটি স্বনামধন্য প্রকৌশলী শিক্ষা প্রতিষ্ঠান।", en: "Rajshahi Government Polytechnic Institute, Rajshahi — a renowned engineering education institute established in 1963." },
   "footer.links": { bn: "লিংক", en: "Links" },
