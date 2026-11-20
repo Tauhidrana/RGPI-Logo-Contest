@@ -9,6 +9,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { ContestLogo } from "@/components/shared/contest-logo";
+import { OrganizerBadge } from "@/components/shared/organizer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RULE_BOOK_META, RULE_INTRO, RULE_SECTIONS, type RuleBlock } from "@/lib/rulebook";
@@ -76,7 +77,10 @@ export function RuleBookPage() {
         <section className="hero-glow border-b">
           <div className="container-pad py-12 text-center sm:py-16">
             <div className="mx-auto w-56 sm:w-72"><ContestLogo variant="compact" /></div>
-            <div className="mt-6 flex justify-center"><span className="pill-outline bg-leaf-100 dark:bg-leaf-900/40"><BookOpen className="h-4 w-4" /> Rule Book · v1.0</span></div>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <span className="pill-outline bg-leaf-100 dark:bg-leaf-900/40"><BookOpen className="h-4 w-4" /> Rule Book · v1.0</span>
+              <OrganizerBadge />
+            </div>
             <h1 className="mt-5 text-4xl font-extrabold text-ink sm:text-6xl dark:text-foreground"><span className="highlight">নিয়মাবলি</span></h1>
             <p className="mt-4 text-xs font-extrabold uppercase tracking-widest text-brand-600">{RULE_BOOK_META.tagline}</p>
             <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold text-ink/80 dark:text-foreground/80">{RULE_BOOK_META.institute}</p>

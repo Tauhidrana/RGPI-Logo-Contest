@@ -14,7 +14,8 @@ export function ContestLogo({
   const teeth = Array.from({ length: 24 }, (_, i) => {
     const a = (i / 24) * Math.PI * 2;
     const r1 = i % 2 === 0 ? 58 : 47;
-    return `${90 + Math.cos(a) * r1},${92 + Math.sin(a) * r1}`;
+    // Round coordinates so server and browser produce byte-identical markup.
+    return `${(90 + Math.cos(a) * r1).toFixed(2)},${(92 + Math.sin(a) * r1).toFixed(2)}`;
   }).join(" ");
 
   return (

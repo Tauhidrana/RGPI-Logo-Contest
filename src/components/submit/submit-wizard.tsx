@@ -15,6 +15,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { Countdown } from "@/components/shared/countdown";
+import { OrganizerBadge } from "@/components/shared/organizer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -275,7 +276,8 @@ export function SubmitWizard({ settings, departments }: { settings: ContestSetti
       <main className="container-pad py-10 sm:py-14">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
-            <h1 className="text-3xl font-extrabold sm:text-4xl">{l.title}</h1>
+            <OrganizerBadge className="mx-auto" />
+            <h1 className="mt-4 text-3xl font-extrabold sm:text-4xl">{l.title}</h1>
             <p className="mt-2 muted">{l.sub}</p>
           </div>
 

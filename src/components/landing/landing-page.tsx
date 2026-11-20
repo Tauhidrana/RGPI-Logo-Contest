@@ -14,6 +14,7 @@ import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { Countdown } from "@/components/shared/countdown";
 import { ContestLogo } from "@/components/shared/contest-logo";
+import { OrganizerBadge, OrganizerPanel } from "@/components/shared/organizer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -76,41 +77,86 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
 
       <main>
       {/* HERO */}
-      <section className="relative hero-glow">
-        <div className="container-pad relative pb-16 pt-10 sm:pb-24 sm:pt-14">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="mx-auto w-full max-w-3xl">
-              <ContestLogo className="drop-shadow-[6px_6px_0_rgba(14,47,51,0.12)]" />
+      <section className="relative isolate overflow-hidden hero-mesh">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 hero-grid" />
+        <div aria-hidden="true" className="pointer-events-none absolute -left-24 -top-32 h-80 w-80 rounded-full bg-sun-300/50 blur-[90px]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -right-20 top-24 h-96 w-96 rounded-full bg-brand-300/40 blur-[100px]" />
+        <div className="container-pad relative pb-14 pt-12 sm:pb-16 sm:pt-16">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+            {/* Copy */}
+            <div className="animate-rise">
+              <OrganizerBadge />
+              <div className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-full border-2 border-ink/15 bg-white/70 px-3 py-1.5 text-xs font-extrabold text-ink dark:bg-card/70 dark:text-foreground">
+                <Sparkles className="h-3.5 w-3.5 text-sun-600" />
+                {t("hero.edition")}
+                <span className="h-1 w-1 rounded-full bg-ink/30" />
+                {t("hero.eyebrow")}
+              </div>
+              <h1 className="mt-5 text-[2.75rem] font-extrabold leading-[1.06] tracking-tight text-ink sm:text-6xl lg:text-[4rem] dark:text-foreground">
+                {t("hero.title")}
+                <span className="mt-1 block heading-gradient">{lang === "bn" ? "২০২৬" : "2026"}</span>
+              </h1>
+              <p className="mt-5 flex items-center gap-2 text-lg font-extrabold text-ink sm:text-2xl dark:text-foreground">
+                {t("hero.subtitle")} <span className="text-sun-500">✦</span>
+              </p>
+              <p className="mt-3 max-w-xl text-base leading-relaxed muted sm:text-lg">
+                {t("hero.desc")}
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Button asChild variant="brand" size="lg" className="w-full shadow-[4px_4px_0_0_#0E2F33] sm:w-auto"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
+                <Button asChild variant="outline" size="lg" className="w-full sm:w-auto"><Link href="#details">{t("hero.ctaSecondary")}</Link></Button>
+              </div>
+              <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t-2 border-dashed border-ink/15 pt-5 text-sm font-bold text-ink/80 dark:text-foreground/80">
+                {[t("hero.perk1"), t("hero.perk2"), t("hero.perk3")].map((perk) => (
+                  <li key={perk} className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-leaf-600" />{perk}</li>
+                ))}
+              </ul>
             </div>
-            <p className="mt-6 text-lg font-extrabold text-ink sm:text-2xl dark:text-foreground">
-              {t("hero.subtitle")} <span className="text-sun-500">✦</span>
-            </p>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed muted sm:text-lg">
-              {t("hero.desc")}
-            </p>
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild variant="brand" size="lg" className="w-full sm:w-auto"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto"><Link href="#details">{t("hero.ctaSecondary")}</Link></Button>
-            </div>
-          </div>
 
-          <div className="mx-auto mt-12 max-w-2xl">
-            <div className="sticker overflow-hidden bg-white p-1.5 dark:bg-card">
-              <div className="rounded-[20px] bg-leaf-50 p-5 dark:bg-leaf-950/30 sm:p-7">
-                <div className="mb-4 flex items-center justify-center gap-2 text-xs font-extrabold uppercase tracking-widest text-ink dark:text-foreground">
-                  <CalendarDays className="h-4 w-4 text-leaf-600" /> {t("hero.deadline")}
+            {/* Contest identity artwork */}
+            <div className="animate-rise [animation-delay:120ms]">
+              <div className="relative mx-auto max-w-md">
+                <div aria-hidden="true" className="absolute -inset-8 rounded-[3rem] bg-leaf-300/35 blur-3xl" />
+                <div className="sticker relative -rotate-2 bg-white p-4 transition-transform duration-500 hover:rotate-0 dark:bg-card sm:p-6">
+                  <ContestLogo className="drop-shadow-[6px_6px_0_rgba(14,47,51,0.12)]" />
+                  <div className="mt-2 flex items-center justify-center gap-3 border-t-2 border-dashed border-ink/15 pt-4 text-[10px] font-extrabold uppercase tracking-[0.2em] text-ink/50 dark:text-foreground/50">
+                    <span>Design</span><span className="h-1.5 w-1.5 rounded-full bg-sun-500" /><span>Create</span><span className="h-1.5 w-1.5 rounded-full bg-leaf-500" /><span>Inspire</span>
+                  </div>
                 </div>
-                <Countdown deadline={settings.deadline} />
-                <p className="mt-4 text-center text-sm text-ink/80 dark:text-foreground/80">
-                  {lang === "bn" ? "শেষ সময়:" : "Deadline:"} <strong>{deadlineLabel}</strong> · Asia/Dhaka
-                </p>
+                <div className="pointer-events-none absolute -left-6 top-6 hidden animate-float rounded-2xl border-[3px] border-ink bg-sun-300 px-4 py-2 text-sm font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] sm:block">EST. 1963 ✦</div>
+                <div className="pointer-events-none absolute -bottom-6 -right-6 hidden animate-float rounded-2xl border-[3px] border-ink bg-leaf-500 px-4 py-2 text-sm font-extrabold text-white shadow-[4px_4px_0_0_#0E2F33] sm:block">GO GREEN 🌱</div>
+                <div className="pointer-events-none absolute -right-8 top-1/3 hidden rotate-12 rounded-xl border-[3px] border-ink bg-brand-600 px-3 py-2 text-xs font-extrabold text-white shadow-[4px_4px_0_0_#0E2F33] md:block">100% ORIGINAL</div>
               </div>
             </div>
           </div>
 
-          {/* stickers */}
-          <div className="pointer-events-none absolute left-1 top-1/3 hidden animate-float rounded-2xl border-[3px] border-ink bg-sun-300 px-4 py-2 font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] xl:block">EST. 1963 ✦</div>
-          <div className="pointer-events-none absolute right-1 top-1/2 hidden animate-float rounded-2xl border-[3px] border-ink bg-leaf-500 px-4 py-2 font-extrabold text-ink shadow-[4px_4px_0_0_#0E2F33] xl:block">GO GREEN 🌱</div>
+          {/* Deadline / countdown */}
+          <div className="sticker mt-14 bg-white/85 p-4 backdrop-blur dark:bg-card/85 sm:p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+              <div className="flex shrink-0 items-center gap-4">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl border-[3px] border-ink bg-sun-300 text-ink shadow-[3px_3px_0_0_#0E2F33]"><CalendarDays className="h-7 w-7" /></div>
+                <div>
+                  <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-brand-600">{t("hero.deadline")}</p>
+                  <p className="mt-1 text-lg font-extrabold text-ink dark:text-foreground">{deadlineLabel}</p>
+                  <p className="text-xs muted">Asia/Dhaka · GMT+6</p>
+                </div>
+              </div>
+              <div className="w-full lg:max-w-2xl"><Countdown deadline={settings.deadline} /></div>
+            </div>
+          </div>
+        </div>
+
+        {/* concept marquee */}
+        <div aria-hidden="true" className="marquee-track relative overflow-hidden border-y-2 border-ink/15 bg-ink py-2.5 text-white dark:border-white/10">
+          <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.3em]">
+            {Array.from({ length: 2 }, (_, i) => (
+              <span key={i} className="flex items-center gap-8">
+                <span className="text-sun-400">✦</span>
+                {lang === "bn" ? settings.concept_bn : settings.concept_en}
+                <span className="text-sun-400">✦</span>
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -290,15 +336,16 @@ export function LandingPage({ settings }: { settings: ContestSettings }) {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* CTA + organizer credit */}
         <section className="pb-20">
-          <div className="container-pad">
+          <div className="container-pad space-y-5">
             <div className="sticker overflow-hidden bg-sun-300 px-6 py-14 text-center sm:px-12 dark:bg-sun-700">
               <PartyPopper className="mx-auto h-12 w-12 text-ink dark:text-white" />
               <h2 className="mt-4 text-3xl font-extrabold text-ink sm:text-5xl dark:text-white">{lang === "bn" ? "আপনার সৃজনশীলতা দেখান" : "Show us your creativity"}</h2>
               <p className="mx-auto mt-3 max-w-xl font-semibold text-ink/80 dark:text-white/90">{lang === "bn" ? "একটি লোগো, অসীম সম্ভাবনা। আজই জমা দিন এবং RGPI-এর ইতিহাসের অংশ হুন।" : "One logo, endless possibilities. Submit today and become part of RGPI's history."}</p>
               <Button asChild variant="default" size="lg" className="mt-7 border-sun-300"><Link href="/submit">{t("hero.cta")} <ArrowRight className="h-4 w-4" /></Link></Button>
             </div>
+            <OrganizerPanel />
           </div>
         </section>
       </div>

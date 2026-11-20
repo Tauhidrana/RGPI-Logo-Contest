@@ -101,6 +101,52 @@
   background: radial-gradient(60% 55% at 50% 0%, rgba(249, 184, 37, 0.22) 0%, rgba(22, 163, 74, 0.14) 45%, transparent 100%);
 }
 
+/* Rich, layered hero canvas: soft colour wash + precision dot grid */
+.hero-mesh {
+  background:
+    radial-gradient(55% 45% at 12% 8%, rgba(249, 184, 37, 0.28) 0%, transparent 70%),
+    radial-gradient(50% 50% at 92% 22%, rgba(37, 99, 235, 0.16) 0%, transparent 70%),
+    radial-gradient(60% 60% at 62% 88%, rgba(22, 163, 74, 0.16) 0%, transparent 70%),
+    linear-gradient(180deg, #f4fbf5 0%, #f7fbf7 55%, #f2f9f6 100%);
+}
+.dark .hero-mesh {
+  background:
+    radial-gradient(55% 45% at 12% 8%, rgba(249, 184, 37, 0.12) 0%, transparent 70%),
+    radial-gradient(50% 50% at 92% 22%, rgba(37, 99, 235, 0.14) 0%, transparent 70%),
+    radial-gradient(60% 60% at 62% 88%, rgba(22, 163, 74, 0.12) 0%, transparent 70%),
+    #071b1e;
+}
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(14, 47, 51, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 47, 51, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+.dark .hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Staggered, lightweight entrance animation (no layout shift) */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes marquee-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee-slide 26s linear infinite; }
+.marquee-track:hover .animate-marquee { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise, .animate-float, .animate-marquee, .animate-wiggle { animation: none !important; }
+}
+
 ::-webkit-scrollbar { width: 9px; height: 9px; }
 ::-webkit-scrollbar-thumb { @apply rounded-full bg-ink/25; }
 ::-webkit-scrollbar-track { background: transparent; }

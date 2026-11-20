@@ -47,6 +47,16 @@ export const dictionary = {
   "hero.seconds": { bn: "সেকেন্ড", en: "Seconds" },
   "hero.closed": { bn: "জমা দেওয়া বন্ধ", en: "Submission closed" },
   "hero.closedDesc": { bn: "এই প্রতিযোগিতার জমা দেওয়ার সময় শেষ হয়ে গেছে।", en: "The submission window for this contest has ended." },
+  "hero.edition": { bn: "২০২৬ সংস্করণ", en: "2026 edition" },
+  "hero.perk1": { bn: "বর্তমান শিক্ষার্থীদের জন্য উন্মুক্ত", en: "Open to current students" },
+  "hero.perk2": { bn: "কোনো ফি বা লগইন নেই", en: "No fee, no login needed" },
+  "hero.perk3": { bn: "প্রতি শিক্ষার্থী সর্বোচ্চ ৩টি এন্ট্রি", en: "Up to 3 entries per student" },
+
+  "organize.label": { bn: "আয়োজক", en: "Organized by" },
+  "organize.dept": { bn: "কম্পিউটার বিজ্ঞান ও প্রযুক্তি — ১ম শিফট", en: "Computer Science & Technology — 1st Shift" },
+  "organize.deptShort": { bn: "কম্পিউটার বিজ্ঞান ও প্রযুক্তি · ১ম শিফট", en: "Computer Science & Technology · 1st Shift" },
+  "organize.institute": { bn: "রাজশাহী সরকারি পলিটেকনিক ইনস্টিটিউট, রাজশাহী", en: "Rajshahi Government Polytechnic Institute, Rajshahi" },
+  "organize.footerTitle": { bn: "প্রতিযোগিতার আয়োজক", en: "Contest organizer" },
 
   "theme.title": { bn: "ডিজাইনের থিম ও ধারণা", en: "Theme & concept" },
   "theme.desc": { bn: "আপনার লোগোতে এই চারটি ধারণা প্রতিফলিত হোক", en: "Let your logo reflect these four ideas" },

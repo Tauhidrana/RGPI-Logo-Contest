@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import { ContestLogo } from "./contest-logo";
+import { OrganizerPanel } from "./organizer";
 import type { DictKey } from "@/lib/i18n/dict";
 
 const links: { href: string; key: DictKey }[] = [
@@ -47,6 +48,14 @@ export function SiteFooter() {
           <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-emerald-300">
             <span className="h-2 w-2 rounded-full bg-emerald-400" /> Established 1963
           </div>
+        </div>
+      </div>
+      <div className="border-t border-white/10 bg-black/20">
+        <div className="container-pad py-8">
+          <p className="mb-4 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500">
+            <span className="h-px w-8 bg-slate-600" /> {t("organize.footerTitle")}
+          </p>
+          <OrganizerPanel tone="dark" />
         </div>
       </div>
       <div className="border-t border-white/10">
